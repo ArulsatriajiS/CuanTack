@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ==========================================
+   VARIABEL WARNA (ganti warnanya di sini saja!)
+   ========================================== */
+:root {
+    --warna-latar-utama: #f8fafc;
+    --warna-sidebar: #b9dfff;       /* Biru Sidebar (Coretan Merah) */
+    --warna-kartu: #b9dfff;         /* Biru Kartu disamakan dengan Sidebar (Coretan Kuning) */
+    --warna-teks-judul: #1e293b;
+    --warna-teks-sub: #475569;
+    --warna-biru-tombol: #1a56db;
+    --warna-biru-hover: #1e40af;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--warna-latar-utama);
+}
+
+.bg-main { background-color: var(--warna-latar-utama); }
+.text-dark-custom { color: var(--warna-teks-judul); }
+.text-secondary-custom { color: var(--warna-teks-sub); }
+.text-primary-custom { color: var(--warna-biru-tombol) !important; }
+
+/* === SIDEBAR === */
+.sidebar-custom {
+    width: 260px;
+    background-color: var(--warna-sidebar);
+    border-right: 1px solid rgba(0,0,0,0.05);
+}
+
+.nav-link-custom {
+    color: #334155; font-weight: 600; padding: 12px 20px; border-radius: 10px; transition: all 0.2s ease;
+}
+.nav-link-custom:hover { background-color: rgba(255, 255, 255, 0.4); color: var(--warna-biru-tombol); }
+.nav-link-custom.active { background-color: transparent !important; color: var(--warna-biru-tombol) !important; font-weight: 700; }
+
+/* === TOMBOL === */
+.btn-primary-custom {
+    background-color: var(--warna-biru-tombol); border-color: var(--warna-biru-tombol); color: white; transition: all 0.2s;
+}
+.btn-primary-custom:hover { background-color: var(--warna-biru-hover); color: white; }
+
+/* === KARTU BERANDA (MENGGUNAKAN WARNA YANG SAMA DENGAN SIDEBAR) === */
+.card-soft-blue {
+    background-color: var(--warna-kartu) !important;
+    border: 1px solid rgba(26, 86, 219, 0.1);
+    transition: transform 0.2s ease;
+}
+.card-soft-blue:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+/* Lingkaran Ikon */
+.icon-circle { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.bg-blue-light { background-color: #dbeafe; }
+.bg-green-light { background-color: #d1fae5; }
+.wallet-icon-wrapper { display: flex; align-items: center; justify-content: center; }
+
+/* ==========================================
+   PENYESUAIAN MOBILE & BOTTOM NAVIGATION
+   ========================================== */
+@media (max-width: 768px) {
+    /* Sembunyikan sidebar di HP */
+    .sidebar-custom { display: none !important; }
+    
+    /* Beri ruang ekstra di bawah konten agar tidak tertutup menu */
+    main { padding-bottom: 75px !important; }
+}
+
+/* Desain Navbar Bawah (Khusus Mobile) */
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    z-index: 1050;
+    border-top: 1px solid #f1f5f9;
+}
+
+.mobile-bottom-nav .nav-item-mobile {
+    text-decoration: none;
+    color: var(--warna-teks-sub);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    width: 20%;
+}
+
+.mobile-bottom-nav .nav-item-mobile i {
+    font-size: 1.3rem;
+    margin-bottom: 2px;
+    transition: transform 0.2s ease;
+}
+
+/* Efek saat menu aktif atau disentuh */
+.mobile-bottom-nav .nav-item-mobile.active {
+    color: var(--warna-biru-tombol);
+}
+
+.mobile-bottom-nav .nav-item-mobile.active i {
+    transform: translateY(-2px); /* Ikon sedikit naik saat aktif */
+}

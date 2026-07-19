@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --warna-latar-utama: #f8fafc;
+    --warna-sidebar: #b9dfff;
+    --warna-kartu-biru: #b9dfff;
+    --warna-teks-judul: #1e293b;
+    --warna-teks-sub: #475569;
+    --warna-biru-tombol: #1a56db;
+    --warna-biru-hover: #1e40af;
+}
+
+body { font-family: 'Inter', sans-serif; background-color: var(--warna-latar-utama); }
+.bg-main { background-color: var(--warna-latar-utama); }
+.text-dark-custom { color: var(--warna-teks-judul); }
+.text-secondary-custom { color: var(--warna-teks-sub); }
+.text-primary-custom { color: var(--warna-biru-tombol) !important; }
+
+/* === SIDEBAR === */
+.sidebar-custom { width: 260px; background-color: var(--warna-sidebar); border-right: 1px solid rgba(0,0,0,0.05); }
+.nav-link-custom { color: #334155; font-weight: 600; padding: 12px 20px; border-radius: 10px; transition: all 0.2s ease; }
+.nav-link-custom:hover { background-color: rgba(255, 255, 255, 0.4); color: var(--warna-biru-tombol); }
+.nav-link-custom.active { background-color: transparent !important; color: var(--warna-biru-tombol) !important; font-weight: 700; }
+
+/* === KARTU RINGKASAN ATAS (#b9dfff) === */
+.card-summary {
+    background-color: var(--warna-kartu-biru);
+    border: 1px solid rgba(26, 86, 219, 0.15);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    height: 100%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+}
+.card-summary:hover { transform: translateY(-3px); }
+.icon-summary { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+
+/* === WADAH GRAFIK === */
+.chart-card {
+    background-color: #ffffff;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 1.5rem;
+    padding: 1.75rem;
+    height: 100%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+.chart-container { position: relative; height: 280px; width: 100%; display: flex; justify-content: center; align-items: center; }
+
+/* === KARTU REKOMENDASI / INSIGHT (#b9dfff) === */
+.card-insight {
+    background-color: var(--warna-kartu-biru);
+    border: 1px solid rgba(26, 86, 219, 0.15);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+/* === BOTTOM NAV MOBILE === */
+.mobile-bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #ffffff; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); display: flex; justify-content: space-around; align-items: center; padding: 10px 0; z-index: 1050; border-top: 1px solid #f1f5f9; }
+.mobile-bottom-nav .nav-item-mobile { text-decoration: none; color: var(--warna-teks-sub); display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 600; transition: all 0.2s; width: 20%; }
+.mobile-bottom-nav .nav-item-mobile i { font-size: 1.3rem; margin-bottom: 2px; }
+.mobile-bottom-nav .nav-item-mobile.active { color: var(--warna-biru-tombol); }
+@media (max-width: 768px) { .sidebar-custom { display: none !important; } main { padding-bottom: 75px !important; } }

@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --bg-body: #f8fafc;
+    --navbar-bg: #dbeafe;
+    --text-dark: #1e293b;
+    --text-secondary: #475569;
+    --primary: #1a56db;
+    --primary-hover: #1e40af;
+    --footer-bg: #0b192c;
+    --white: #ffffff;
+    --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.08);
+    --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-dark); 
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* ===== Layout Dasar ===== */
+.bg-body-custom {
+    background-color: var(--bg-body);
+}
+
+.text-dark-custom {
+    color: var(--text-dark);
+}
+
+.text-secondary-custom {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.text-primary-custom {
+    color: var(--primary) !important;
+}
+
+/* ===== Navbar ===== */
+.custom-navbar-bg {
+    background-color: var(--navbar-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.transition-navbar {
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar-scrolled {
+    background-color: rgba(219, 234, 254, 0.85) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+}
+
+.nav-link.text-dark-custom {
+    color: var(--text-dark) !important;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-link.text-dark-custom:hover {
+    color: var(--primary) !important;
+}
+
+/* ===== Tombol ===== */
+.btn-primary-custom {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    color: var(--white);
+}
+
+/* ===== Hero ===== */
+.hero-img {
+    border-radius: 1.5rem;
+    max-width: 90%;
+    object-fit: cover;
+    box-shadow: var(--shadow-md);
+}
+
+/* ===== Fitur ===== */
+.feature-card {
+    transition: transform 0.2s ease-in-out;
+    border: 0;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 4.5rem;
+    color: var(--primary);
+    display: inline-block;
+    line-height: 1;
+}
+
+/* ===== Profil ===== */
+.profile-card {
+    border-radius: 2rem;
+}
+
+.profile-img {
+    border-radius: 1.5rem;
+    object-fit: cover;
+    aspect-ratio: 3 / 4;
+    width: 100%;
+    max-height: 420px;
+    box-shadow: var(--shadow-md);
+}
+
+/* ===== Footer ===== */
+.footer-custom {
+    background-color: var(--footer-bg);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.social-icon {
+    color: var(--white);
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+}
+
+.social-icon:hover {
+    color: var(--primary);
+    transform: translateY(-4px);
+}
+
+/* ===== Responsif ===== */
+@media (max-width: 991.98px) {
+    .hero-img {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .profile-img {
+        max-height: 320px;
+    }
+
+    .feature-card {
+        padding: 1.25rem;
+    }
+}

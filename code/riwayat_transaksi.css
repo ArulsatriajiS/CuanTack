@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --warna-latar-utama: #f8fafc;
+    --warna-sidebar: #b9dfff;
+    --warna-kartu-biru: #b9dfff;
+    --warna-teks-judul: #1e293b;
+    --warna-teks-sub: #475569;
+    --warna-biru-tombol: #1a56db;
+    --warna-biru-hover: #1e40af;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--warna-latar-utama);
+}
+
+.bg-main { background-color: var(--warna-latar-utama); }
+.text-dark-custom { color: var(--warna-teks-judul); }
+.text-secondary-custom { color: var(--warna-teks-sub); }
+.text-primary-custom { color: var(--warna-biru-tombol) !important; }
+
+/* === SIDEBAR === */
+.sidebar-custom {
+    width: 260px;
+    background-color: var(--warna-sidebar);
+    border-right: 1px solid rgba(0,0,0,0.05);
+}
+
+.nav-link-custom {
+    color: #334155;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.nav-link-custom:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    color: var(--warna-biru-tombol);
+}
+
+.nav-link-custom.active {
+    background-color: transparent !important;
+    color: var(--warna-biru-tombol) !important;
+    font-weight: 700;
+}
+
+/* === KARTU RINGKASAN ATAS === */
+.card-summary {
+    background-color: var(--warna-kartu-biru) !important;
+    border: 1px solid rgba(26, 86, 219, 0.15);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    height: 100%;
+    color: #1e293b;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+}
+
+.card-summary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.icon-summary {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* === BARIS FILTER & PENCARIAN (SEMUA WARNA #b9dfff) === */
+.filter-card {
+    background-color: var(--warna-kartu-biru) !important;
+    border: 1px solid rgba(26, 86, 219, 0.15) !important;
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+}
+
+.filter-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+/* === BARIS FILTER & PENCARIAN === */
+.filter-card {
+    background-color: var(--warna-kartu-biru) !important;
+    border: 1px solid rgba(26, 86, 219, 0.15) !important;
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease;
+}
+
+.filter-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+/* Kotak Input Cari dan Dropdown dibuat PUTIH BERSIH (#ffffff) agar kontras dan mudah dibaca */
+.filter-card .form-control-custom,
+.filter-card .form-select-custom,
+.filter-card .input-group-text {
+    background-color: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: 10px !important;
+    padding: 10px 14px !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+/* Efek menyala biru saat kotak pencarian atau dropdown diklik */
+.filter-card .form-control-custom:focus,
+.filter-card .form-select-custom:focus {
+    background-color: #ffffff !important;
+    border-color: var(--warna-biru-tombol) !important;
+    color: #1e293b !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.15);
+}
+
+/* === DAFTAR TRANSAKSI === */
+.date-header {
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.transaction-item {
+    background-color: var(--warna-kartu-biru) !important;
+    border: 1px solid rgba(26, 86, 219, 0.15) !important;
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+}
+
+.transaction-item:hover {
+    transform: translateX(5px);
+    border-color: rgba(26, 86, 219, 0.4) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.empty-card-custom {
+    background-color: var(--warna-kartu-biru) !important;
+    border: 1px solid rgba(26, 86, 219, 0.15) !important;
+}
+
+.icon-category {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+}
+
+.btn-delete {
+    color: #64748b;
+    transition: color 0.2s;
+}
+
+.btn-delete:hover {
+    color: #ef4444;
+}
+
+/* === BOTTOM NAV MOBILE === */
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    z-index: 1050;
+    border-top: 1px solid #f1f5f9;
+}
+
+.mobile-bottom-nav .nav-item-mobile {
+    text-decoration: none;
+    color: var(--warna-teks-sub);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    width: 20%;
+}
+
+.mobile-bottom-nav .nav-item-mobile i {
+    font-size: 1.3rem;
+    margin-bottom: 2px;
+}
+
+.mobile-bottom-nav .nav-item-mobile.active {
+    color: var(--warna-biru-tombol);
+}
+
+@media (max-width: 768px) {
+    .sidebar-custom { display: none !important; }
+    main { padding-bottom: 75px !important; }
+}

@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --warna-latar-utama: #f8fafc;
+    --warna-sidebar: #b9dfff;
+    --warna-kartu-biru: #b9dfff;    /* Biru pastel lembut yang senada dengan Budgeting */
+    --warna-teks-judul: #1e293b;
+    --warna-teks-sub: #475569;
+    --warna-biru-tombol: #1a56db;
+    --warna-biru-hover: #1e40af;
+}
+
+body { font-family: 'Inter', sans-serif; background-color: var(--warna-latar-utama); }
+.bg-main { background-color: var(--warna-latar-utama); }
+.text-dark-custom { color: var(--warna-teks-judul); }
+.text-secondary-custom { color: var(--warna-teks-sub); }
+.text-primary-custom { color: var(--warna-biru-tombol) !important; }
+
+/* === SIDEBAR === */
+.sidebar-custom { width: 260px; background-color: var(--warna-sidebar); border-right: 1px solid rgba(0,0,0,0.05); }
+.nav-link-custom { color: #334155; font-weight: 600; padding: 12px 20px; border-radius: 10px; transition: all 0.2s ease; }
+.nav-link-custom:hover { background-color: rgba(255, 255, 255, 0.4); color: var(--warna-biru-tombol); }
+.nav-link-custom.active { background-color: transparent !important; color: var(--warna-biru-tombol) !important; font-weight: 700; }
+.btn-primary-custom { background-color: var(--warna-biru-tombol); border-color: var(--warna-biru-tombol); color: white; transition: all 0.2s; }
+.btn-primary-custom:hover { background-color: var(--warna-biru-hover); color: white; }
+
+/* === KARTU KIRI (KALENDER) & KANAN (FORM) BERWARNA BIRU === */
+.card-transaksi-blue {
+    background-color: var(--warna-kartu-biru);
+    border: 1px solid rgba(26, 86, 219, 0.1);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    height: 100%;
+}
+
+/* === KALENDER INTERAKTIF === */
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; }
+.calendar-header { font-weight: 700; font-size: 0.8rem; color: #64748b; padding-bottom: 8px; }
+.calendar-day {
+    padding: 10px 0; border-radius: 12px; font-weight: 600; font-size: 0.95rem;
+    color: #1e293b; cursor: pointer; transition: all 0.2s;
+}
+.calendar-day:hover { background-color: rgba(255, 255, 255, 0.6); color: var(--warna-biru-tombol); }
+.calendar-day.active-day { background-color: var(--warna-biru-tombol) !important; color: #ffffff !important; font-weight: 700; box-shadow: 0 4px 10px rgba(26,86,219,0.3); transform: scale(1.05); }
+.calendar-day.empty-day { cursor: default; }
+.calendar-day.empty-day:hover { background-color: transparent; }
+
+/* === FORM INPUT === */
+.form-control-custom { background-color: #ffffff; border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; padding: 12px 16px; font-weight: 600; color: #1e293b; box-shadow: 0 2px 4px rgba(0,0,0,0.01); }
+.form-control-custom:focus { outline: 2px solid var(--warna-biru-tombol); background-color: #ffffff; }
+
+/* === TOMBOL TOGGLE JENIS (Pengeluaran/Pemasukan) === */
+.btn-toggle-jenis { background-color: #ffffff; color: #475569; border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; font-weight: 700; padding: 10px; transition: all 0.2s; cursor: pointer; }
+.btn-toggle-jenis:hover { background-color: #f8fafc; }
+.btn-check:checked + .btn-toggle-jenis { background-color: var(--warna-biru-tombol); color: #ffffff; box-shadow: 0 4px 12px rgba(26, 86, 219, 0.25); border-color: var(--warna-biru-tombol); }
+
+/* === TOMBOL KOTAK KATEGORI (6 Grid) === */
+.grid-kategori { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.btn-kategori-box {
+    background-color: #ffffff; border: 1px solid rgba(0,0,0,0.05); border-radius: 14px;
+    padding: 14px 5px; color: #475569; font-weight: 600; transition: all 0.2s; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.01);
+}
+.btn-kategori-box:hover { background-color: #f8fafc; transform: translateY(-2px); }
+.btn-check:checked + .btn-kategori-box { background-color: var(--warna-biru-tombol); border-color: var(--warna-biru-tombol); color: #ffffff; box-shadow: 0 6px 15px rgba(26,86,219,0.25); transform: translateY(-2px); }
+
+/* === BOTTOM NAV MOBILE === */
+.mobile-bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #ffffff; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); display: flex; justify-content: space-around; align-items: center; padding: 10px 0; z-index: 1050; border-top: 1px solid #f1f5f9; }
+.mobile-bottom-nav .nav-item-mobile { text-decoration: none; color: var(--warna-teks-sub); display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 600; transition: all 0.2s; width: 20%; }
+.mobile-bottom-nav .nav-item-mobile i { font-size: 1.3rem; margin-bottom: 2px; }
+.mobile-bottom-nav .nav-item-mobile.active { color: var(--warna-biru-tombol); }
+@media (max-width: 768px) { .sidebar-custom { display: none !important; } main { padding-bottom: 75px !important; } }
