@@ -104,9 +104,9 @@ function simpan_rencana($data, $user_id) {
     return $result;
 }
 
-// ==========================================
+// =========================================
 // LOGIKA 1-CLICK BUY (BELI BARANG IMPIAN OTOMATIS)
-// ==========================================
+// =========================================
 if (isset($_GET['beli_otomatis']) && $_GET['beli_otomatis'] == 'true') {
     $data_rencana = get_rencana($user_id);
     if ($data_rencana && !empty($data_rencana['harga_barang']) && $data_rencana['harga_barang'] > 0) {
@@ -263,27 +263,27 @@ function get_transaksi_by_id($id, $user_id) {
 // ==========================================
 // FUNGSI UPDATE PROFIL (NAMA LENGKAP)
 // ==========================================
-function update_profil($data, $user_id) {
-    global $koneksi;
-    $nama_baru = trim($data['nama_lengkap_baru'] ?? '');
+// function update_profil($data, $user_id) {
+//     global $koneksi;
+//     $nama_baru = trim($data['nama_lengkap_baru'] ?? '');
 
-    if (empty($nama_baru)) {
-        return "Nama lengkap tidak boleh kosong!";
-    }
+//     if (empty($nama_baru)) {
+//         return "Nama lengkap tidak boleh kosong!";
+//     }
 
-    $stmt = mysqli_prepare($koneksi, "UPDATE users SET nama_lengkap = ? WHERE id = ?");
-    mysqli_stmt_bind_param($stmt, 'si', $nama_baru, $user_id);
-    mysqli_stmt_execute($stmt);
-    $sukses = mysqli_stmt_affected_rows($stmt);
-    mysqli_stmt_close($stmt);
+//     $stmt = mysqli_prepare($koneksi, "UPDATE users SET nama_lengkap = ? WHERE id = ?");
+//     mysqli_stmt_bind_param($stmt, 'si', $nama_baru, $user_id);
+//     mysqli_stmt_execute($stmt);
+//     $sukses = mysqli_stmt_affected_rows($stmt);
+//     mysqli_stmt_close($stmt);
 
-    if ($sukses >= 0) {
-        $_SESSION['nama_lengkap'] = $nama_baru; // Update nama di session agar langsung berubah di web
-        return "SUKSES";
-    } else {
-        return "Gagal memperbarui nama di database!";
-    }
-}
+//     if ($sukses >= 0) {
+//         $_SESSION['nama_lengkap'] = $nama_baru; // Update nama di session agar langsung berubah di web
+//         return "SUKSES";
+//     } else {
+//         return "Gagal memperbarui nama di database!";
+//     }
+// }
 
 
 // ==========================================
@@ -415,6 +415,101 @@ function ganti_password($data, $user_id) {
     mysqli_stmt_close($stmt_update);
 
     return ($sukses >= 0) ? "SUKSES" : "Gagal memperbarui kata sandi di database!";
+}
+
+// ==========================================
+// FUNGSI UPLOAD FOTO PROFIL
+// ==========================================
+function upload_foto() {
+    $namaFile   = $_FILES['foto_profil']['name'];
+    $ukuranFile = $_FILES['foto_profil']['size'];
+    $error      = $_FILES['foto_profil']['error'];
+    $tmpName    = $_FILES['foto_profil']['tmp_name'];
+
+    // Cek apakah tidak ada gambar yang diupload
+    if ($error === 4) {
+        return false;
+    }
+
+    // Cek apakah yang diupload adalah gambar
+    $ekstensiValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiFile  = explode('.', $namaFile);
+    $ekstensiFile  = strtolower(end($ekstensiFile));
+
+    if (!in_array($ekstensiFile, $ekstensiValid)) {
+        return "EKSTENSI_SALAH";
+    }
+
+    // Cek jika ukurannya terlalu besar (Maksimal 2 MB)
+    if ($ukuranFile > 2000000) {
+        return "UKURAN_BESAR";
+    }
+
+    // Generate nama file baru yang unik agar tidak bentrok
+    $namaFileBaru = uniqid() . '.' . $ekstensiFile;
+    
+    // Pastikan folder tujuan ada, jika belum ada otomatis buatkan!
+    $folderTujuan = '../images/profil/';
+    if (!is_dir($folderTujuan)) {
+        mkdir($folderTujuan, 0777, true);
+    }
+
+    // Pindahkan file ke folder images/profil/
+    move_uploaded_file($tmpName, $folderTujuan . $namaFileBaru);
+
+    return $namaFileBaru;
+}
+
+// ==========================================
+// FUNGSI UPDATE PROFIL (NAMA & FOTO)
+// ==========================================
+function update_profil($data, $user_id) {
+    global $koneksi;
+    $nama_baru = trim($data['nama_lengkap_baru'] ?? '');
+
+    if (empty($nama_baru)) {
+        return "Nama lengkap tidak boleh kosong!";
+    }
+
+    // Ambil foto lama dari database
+    $stmt_cek = mysqli_prepare($koneksi, "SELECT foto FROM users WHERE id = ?");
+    mysqli_stmt_bind_param($stmt_cek, 'i', $user_id);
+    mysqli_stmt_execute($stmt_cek);
+    mysqli_stmt_bind_result($stmt_cek, $foto_lama);
+    mysqli_stmt_fetch($stmt_cek);
+    mysqli_stmt_close($stmt_cek);
+
+    // Cek apakah user mengupload foto baru
+    if ($_FILES['foto_profil']['error'] === 4) {
+        $foto_db = $foto_lama; // Jika tidak upload, tetap pakai foto lama
+    } else {
+        $foto_db = upload_foto();
+        if ($foto_db === "EKSTENSI_SALAH") {
+            return "Gagal! Yang kamu upload bukan file gambar (wajib JPG/PNG).";
+        } elseif ($foto_db === "UKURAN_BESAR") {
+            return "Gagal! Ukuran foto maksimal adalah 2 MB.";
+        }
+        
+        // Hapus foto lama di folder jika ada (agar server tidak penuh)
+        if (!empty($foto_lama) && file_exists('../images/profil/' . $foto_lama)) {
+            unlink('../images/profil/' . $foto_lama);
+        }
+    }
+
+    // Update database
+    $stmt = mysqli_prepare($koneksi, "UPDATE users SET nama_lengkap = ?, foto = ? WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, 'ssi', $nama_baru, $foto_db, $user_id);
+    mysqli_stmt_execute($stmt);
+    $sukses = mysqli_stmt_affected_rows($stmt);
+    mysqli_stmt_close($stmt);
+
+    if ($sukses >= 0) {
+        $_SESSION['nama_lengkap'] = $nama_baru;
+        $_SESSION['foto_profil']  = $foto_db; // Simpan foto ke session
+        return "SUKSES";
+    } else {
+        return "Gagal memperbarui profil di database!";
+    }
 }
 ?>
 

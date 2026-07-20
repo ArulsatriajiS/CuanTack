@@ -113,30 +113,44 @@ if (isset($_POST['btn_update_profil'])) {
         <!-- KONTEN UTAMA -->
         <main class="flex-grow-1 d-flex flex-column overflow-y-auto">
             
+            <!-- HEADER UTAMA (SUDAH DIPERBAIKI AGAR POSISI TIDAK GESER) -->
             <header class="d-flex justify-content-between align-items-center p-4 border-bottom bg-white">
+                <!-- Judul Kiri -->
                 <h4 class="fw-bold text-dark-custom mb-0 ps-2">Pengaturan Akun</h4>
                 
-                <!-- DROPDOWN PROFIL POJOK KANAN ATAS -->
+                <!-- Dropdown Profil Kanan -->
                 <div class="dropdown pe-3">
                     <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle text-secondary fs-1 me-3"></i>
+                        
+                        <!-- Logika Tampilkan Foto / Ikon -->
+                        <?php if (!empty($_SESSION['foto_profil']) && file_exists('../images/profil/' . $_SESSION['foto_profil'])): ?>
+                            <img src="../images/profil/<?= $_SESSION['foto_profil']; ?>" alt="Foto Profil" class="rounded-circle object-fit-cover me-3 shadow-sm" style="width: 45px; height: 45px; border: 2px solid #1a56db;">
+                        <?php else: ?>
+                            <i class="bi bi-person-circle text-secondary fs-1 me-3"></i>
+                        <?php endif; ?>
+
                         <div class="d-flex flex-column text-start">
-                            <span class="fw-bold text-dark-custom lh-1"><?= htmlspecialchars($nama_user); ?></span>
+                            <span class="fw-bold text-dark-custom lh-1"><?= htmlspecialchars($_SESSION['nama_lengkap'] ?? 'Pengguna'); ?></span>
                             <span class="text-secondary small mt-1 fw-semibold">Pengguna aktif</span>
                         </div>
                     </a>
                     
                     <!-- Isi Menu Melayang -->
                     <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 p-3 mt-2" aria-labelledby="dropdownUser" style="width: 250px; background-color: #ffffff;">
-                        <!-- Header Mini Profil -->
-                        <li class="px-2 py-1 mb-2">
-                            <span class="fw-bold text-dark-custom d-block"><?= htmlspecialchars($nama_user); ?></span>
-                            <small class="text-secondary d-block text-truncate"><?= htmlspecialchars($email_user); ?></small>
-                            <span class="badge bg-success-subtle text-success border border-success-subtle mt-2 px-2 py-1" style="font-size: 0.7rem;">🟢 Pengguna Aktif</span>
+                        <li class="px-2 py-1 mb-2 d-flex align-items-center">
+                            <?php if (!empty($_SESSION['foto_profil']) && file_exists('../images/profil/' . $_SESSION['foto_profil'])): ?>
+                                <img src="../images/profil/<?= $_SESSION['foto_profil']; ?>" alt="Foto Profil" class="rounded-circle object-fit-cover me-3" style="width: 40px; height: 40px;">
+                            <?php else: ?>
+                                <i class="bi bi-person-circle text-secondary fs-2 me-3"></i>
+                            <?php endif; ?>
+                            <div class="overflow-hidden">
+                                <span class="fw-bold text-dark-custom d-block text-truncate"><?= htmlspecialchars($_SESSION['nama_lengkap'] ?? 'Pengguna'); ?></span>
+                                <small class="text-secondary d-block text-truncate"><?= htmlspecialchars($_SESSION['email'] ?? 'Akun CuanTrack'); ?></small>
+                            </div>
                         </li>
+                        <li><span class="badge bg-success-subtle text-success border border-success-subtle w-100 py-1 mt-1" style="font-size: 0.7rem;">🟢 Pengguna Aktif</span></li>
                         <li><hr class="dropdown-divider opacity-10 my-2"></li>
                         
-                        <!-- Jalan Pintas -->
                         <li>
                             <a class="dropdown-item rounded-3 py-2 fw-semibold text-dark-custom d-flex align-items-center" href="pengaturan.php">
                                 <i class="bi bi-gear-fill text-primary-custom me-2 fs-6"></i> Pengaturan Akun
@@ -149,7 +163,6 @@ if (isset($_POST['btn_update_profil'])) {
                         </li>
                         <li><hr class="dropdown-divider opacity-10 my-2"></li>
                         
-                        <!-- Tombol Keluar Merah -->
                         <li>
                             <a class="dropdown-item rounded-3 py-2 fw-bold text-danger d-flex align-items-center" href="logout.php" onclick="return confirm('Yakin ingin keluar dari aplikasi CuanTrack?');">
                                 <i class="bi bi-box-arrow-right me-2 fs-6"></i> Keluar
@@ -186,29 +199,37 @@ if (isset($_POST['btn_update_profil'])) {
                         </div>
                     </div>
                     
-                    <form action="" method="POST">
-                        <!-- Susunan Atas-Bawah (Bukan Kiri-Kanan) -->
+                    <!-- WAJIB ADA: enctype="multipart/form-data" agar bisa upload file -->
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        
+                        <!-- Input Upload Foto -->
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-dark-custom mb-1">Foto Profil (Opsional)</label>
+                            <input type="file" name="foto_profil" class="form-control form-control-custom" accept=".jpg, .jpeg, .png">
+                            <small class="text-secondary" style="font-size: 0.75rem;">Format wajib: JPG/PNG. Ukuran maksimal: 2 MB.</small>
+                        </div>
+
+                        <!-- Input Nama Lengkap -->
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-dark-custom mb-1">Nama Lengkap</label>
-                            <!-- Input nama SEKARANG BISA DIEDIT (readonly dan disabled dihapus) -->
                             <input type="text" name="nama_lengkap_baru" class="form-control form-control-custom" value="<?= htmlspecialchars($nama_user); ?>" required>
                         </div>
                         
+                        <!-- Input Email (Tidak Bisa Diedit) -->
                         <div class="mb-4">
                             <label class="form-label small fw-bold text-dark-custom mb-1">Alamat Email</label>
-                            <!-- Input email TETAP TIDAK BISA DIEDIT -->
                             <input type="email" class="form-control form-control-custom bg-light" value="<?= htmlspecialchars($email_user); ?>" readonly disabled>
                         </div>
 
-                        <!-- Tombol Simpan Nama -->
+                        <!-- Tombol Simpan -->
                         <div class="d-flex justify-content-end pt-3 border-top" style="border-color: rgba(0,0,0,0.06) !important;">
                             <button type="submit" name="btn_update_profil" class="btn btn-primary-custom px-4 py-2 fw-bold rounded-3 shadow-sm">
-                                Simpan Nama <i class="bi bi-check-lg ms-1"></i>
+                                Simpan Profil <i class="bi bi-check-lg ms-1"></i>
                             </button>
                         </div>
                     </form>
                 </div>
-
+                
                 <!-- KARTU 2: GANTI KATA SANDI -->
                 <div class="card-settings-blue shadow-sm mb-5">
                     <div class="d-flex align-items-center mb-4">

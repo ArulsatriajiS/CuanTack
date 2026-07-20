@@ -160,7 +160,7 @@ $random_quote = $quotes[array_rand($quotes)];
                 <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 card-soft-blue">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="text-secondary-custom fs-5 mb-2">Sisa Saldo Bulan Ini (Surplus/Defisit)</p>
+                            <p class="text-secondary-custom fs-5 mb-2">Sisa Saldo Bulan Ini</p>
                             <h2 class="fw-bold text-dark-custom mb-0">Rp <?= number_format($ringkasan['selisih'], 0, '', '.'); ?></h2>
                         </div>
                         <div class="wallet-icon-wrapper">
