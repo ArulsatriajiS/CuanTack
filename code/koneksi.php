@@ -3,7 +3,7 @@
 $host       = "localhost";
 $user       = "root";
 $password   = ""; 
-$database   = "cuan_track"; // Nama database sesuai yang kamu buat di HeidiSQL
+$database   = "cuan_track"; 
 
 // Membuat koneksi
 $koneksi = mysqli_connect($host, $user, $password, $database);

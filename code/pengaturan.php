@@ -31,6 +31,17 @@ if (isset($_POST['btn_ganti_password'])) {
         $pesan_error = "⚠️ " . $hasil;
     }
 }
+
+// Proses saat tombol Simpan Nama ditekan
+if (isset($_POST['btn_update_profil'])) {
+    $hasil_profil = update_profil($_POST, $user_id);
+    if ($hasil_profil === "SUKSES") {
+        $nama_user = $_SESSION["nama_lengkap"]; // Perbarui variabel nama agar langsung tampil
+        $pesan_sukses = "🎉 Nama lengkap berhasil diperbarui!";
+    } else {
+        $pesan_error = "⚠️ " . $hasil_profil;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -104,12 +115,47 @@ if (isset($_POST['btn_ganti_password'])) {
             
             <header class="d-flex justify-content-between align-items-center p-4 border-bottom bg-white">
                 <h4 class="fw-bold text-dark-custom mb-0 ps-2">Pengaturan Akun</h4>
-                <div class="d-flex align-items-center pe-3">
-                    <i class="bi bi-person-circle text-secondary fs-1 me-3"></i>
-                    <div class="d-flex flex-column">
-                        <span class="fw-bold text-dark-custom lh-1"><?= htmlspecialchars($nama_user); ?></span>
-                        <span class="text-secondary small mt-1 fw-semibold">Pengguna aktif</span>
-                    </div>
+                
+                <!-- DROPDOWN PROFIL POJOK KANAN ATAS -->
+                <div class="dropdown pe-3">
+                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle text-secondary fs-1 me-3"></i>
+                        <div class="d-flex flex-column text-start">
+                            <span class="fw-bold text-dark-custom lh-1"><?= htmlspecialchars($nama_user); ?></span>
+                            <span class="text-secondary small mt-1 fw-semibold">Pengguna aktif</span>
+                        </div>
+                    </a>
+                    
+                    <!-- Isi Menu Melayang -->
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 p-3 mt-2" aria-labelledby="dropdownUser" style="width: 250px; background-color: #ffffff;">
+                        <!-- Header Mini Profil -->
+                        <li class="px-2 py-1 mb-2">
+                            <span class="fw-bold text-dark-custom d-block"><?= htmlspecialchars($nama_user); ?></span>
+                            <small class="text-secondary d-block text-truncate"><?= htmlspecialchars($email_user); ?></small>
+                            <span class="badge bg-success-subtle text-success border border-success-subtle mt-2 px-2 py-1" style="font-size: 0.7rem;">🟢 Pengguna Aktif</span>
+                        </li>
+                        <li><hr class="dropdown-divider opacity-10 my-2"></li>
+                        
+                        <!-- Jalan Pintas -->
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 fw-semibold text-dark-custom d-flex align-items-center" href="pengaturan.php">
+                                <i class="bi bi-gear-fill text-primary-custom me-2 fs-6"></i> Pengaturan Akun
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 fw-semibold text-dark-custom d-flex align-items-center" href="analisa.php">
+                                <i class="bi bi-pie-chart-fill text-primary-custom me-2 fs-6"></i> Analisa Keuangan
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider opacity-10 my-2"></li>
+                        
+                        <!-- Tombol Keluar Merah -->
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 fw-bold text-danger d-flex align-items-center" href="logout.php" onclick="return confirm('Yakin ingin keluar dari aplikasi CuanTrack?');">
+                                <i class="bi bi-box-arrow-right me-2 fs-6"></i> Keluar
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </header>
 
@@ -139,16 +185,28 @@ if (isset($_POST['btn_ganti_password'])) {
                             <small class="text-secondary-custom">Data akun yang terdaftar di dalam sistem CuanTrack</small>
                         </div>
                     </div>
-                    <div class="row g-3">
-                        <div class="col-md-6">
+                    
+                    <form action="" method="POST">
+                        <!-- Susunan Atas-Bawah (Bukan Kiri-Kanan) -->
+                        <div class="mb-3">
                             <label class="form-label small fw-bold text-dark-custom mb-1">Nama Lengkap</label>
-                            <input type="text" class="form-control form-control-custom bg-light" value="<?= htmlspecialchars($nama_user); ?>" readonly disabled>
+                            <!-- Input nama SEKARANG BISA DIEDIT (readonly dan disabled dihapus) -->
+                            <input type="text" name="nama_lengkap_baru" class="form-control form-control-custom" value="<?= htmlspecialchars($nama_user); ?>" required>
                         </div>
-                        <div class="col-md-6">
+                        
+                        <div class="mb-4">
                             <label class="form-label small fw-bold text-dark-custom mb-1">Alamat Email</label>
+                            <!-- Input email TETAP TIDAK BISA DIEDIT -->
                             <input type="email" class="form-control form-control-custom bg-light" value="<?= htmlspecialchars($email_user); ?>" readonly disabled>
                         </div>
-                    </div>
+
+                        <!-- Tombol Simpan Nama -->
+                        <div class="d-flex justify-content-end pt-3 border-top" style="border-color: rgba(0,0,0,0.06) !important;">
+                            <button type="submit" name="btn_update_profil" class="btn btn-primary-custom px-4 py-2 fw-bold rounded-3 shadow-sm">
+                                Simpan Nama <i class="bi bi-check-lg ms-1"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
 
                 <!-- KARTU 2: GANTI KATA SANDI -->

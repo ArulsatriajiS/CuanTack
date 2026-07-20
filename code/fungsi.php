@@ -261,6 +261,32 @@ function get_transaksi_by_id($id, $user_id) {
 }
 
 // ==========================================
+// FUNGSI UPDATE PROFIL (NAMA LENGKAP)
+// ==========================================
+function update_profil($data, $user_id) {
+    global $koneksi;
+    $nama_baru = trim($data['nama_lengkap_baru'] ?? '');
+
+    if (empty($nama_baru)) {
+        return "Nama lengkap tidak boleh kosong!";
+    }
+
+    $stmt = mysqli_prepare($koneksi, "UPDATE users SET nama_lengkap = ? WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, 'si', $nama_baru, $user_id);
+    mysqli_stmt_execute($stmt);
+    $sukses = mysqli_stmt_affected_rows($stmt);
+    mysqli_stmt_close($stmt);
+
+    if ($sukses >= 0) {
+        $_SESSION['nama_lengkap'] = $nama_baru; // Update nama di session agar langsung berubah di web
+        return "SUKSES";
+    } else {
+        return "Gagal memperbarui nama di database!";
+    }
+}
+
+
+// ==========================================
 // FUNGSI UPDATE / SIMPAN PERUBAHAN TRANSAKSI
 // ==========================================
 function update_transaksi($data, $user_id) {
