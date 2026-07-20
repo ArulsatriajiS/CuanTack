@@ -14,3 +14,5 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
+// next time ngodingnya with youuu
