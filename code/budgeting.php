@@ -130,38 +130,105 @@ $is_edit = isset($_GET['edit']) || !$rencana;
                 <span class="fs-4 fw-bold text-dark-custom">Cuan Track</span>
             </div>
             <ul class="nav nav-pills flex-column mb-auto gap-2">
-                <li class="nav-item"><a href="beranda.php" class="nav-link nav-link-custom d-flex align-items-center"><i class="bi bi-house-door-fill me-3 fs-5"></i> Beranda</a></li>
-                <li class="nav-item"><a href="budgeting.php" class="nav-link nav-link-custom active d-flex align-items-center"><i class="bi bi-bullseye me-3 fs-5"></i> Budgeting</a></li>
-                <li class="nav-item"><a href="catat_transaksi.php" class="nav-link nav-link-custom d-flex align-items-center"><i class="bi bi-calendar2-plus-fill me-3 fs-5"></i> Catat Transaksi</a></li>
-                <li class="nav-item"><a href="riwayat_transaksi.php" class="nav-link nav-link-custom d-flex align-items-center"><i class="bi bi-calculator me-3 fs-5"></i> Riwayat Transaksi</a></li>
-                <li class="nav-item"><a href="analisa.php" class="nav-link nav-link-custom d-flex align-items-center"><i class="bi bi-pie-chart-fill me-3 fs-5"></i> Analisa</a></li>
+                <li class="nav-item">
+                    <a href="beranda.php" class="nav-link nav-link-custom d-flex align-items-center">
+                        <i class="bi bi-house-door-fill me-3 fs-5"></i> Beranda
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="budgeting.php" class="nav-link nav-link-custom active d-flex align-items-center">
+                        <i class="bi bi-bullseye me-3 fs-5"></i> Budgeting
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="catat_transaksi.php" class="nav-link nav-link-custom d-flex align-items-center">
+                        <i class="bi bi-calendar2-plus-fill me-3 fs-5"></i> Catat Transaksi
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="riwayat_transaksi.php" class="nav-link nav-link-custom d-flex align-items-center">
+                        <i class="bi bi-calculator me-3 fs-5"></i> Riwayat Transaksi
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="analisa.php" class="nav-link nav-link-custom d-flex align-items-center">
+                        <i class="bi bi-pie-chart-fill me-3 fs-5"></i> Analisa
+                    </a>
+                </li>
             </ul>
             <hr class="border-secondary opacity-25 mx-2">
             <ul class="nav nav-pills flex-column gap-2 mb-3">
-                <li class="nav-item"><a href="pengaturan.php" class="nav-link nav-link-custom d-flex align-items-center"><i class="bi bi-gear-fill me-3 fs-5"></i> Pengaturan</a></li>
-                <li class="nav-item"><a href="logout.php" class="nav-link nav-link-custom d-flex align-items-center"><i class="bi bi-box-arrow-right me-3 fs-5"></i> Keluar</a></li>
+                <li class="nav-item">
+                    <a href="pengaturan.php" class="nav-link nav-link-custom d-flex align-items-center">
+                        <i class="bi bi-gear-fill me-3 fs-5"></i> Pengaturan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="logout.php" class="nav-link nav-link-custom d-flex align-items-center">
+                        <i class="bi bi-box-arrow-right me-3 fs-5"></i> Keluar
+                    </a>
+                </li>
             </ul>
         </aside>
 
         <!-- KONTEN UTAMA -->
         <main class="flex-grow-1 d-flex flex-column overflow-y-auto">
             <header class="d-flex justify-content-between align-items-center p-4 border-bottom bg-white">
-                <h4 class="fw-bold text-dark-custom mb-0 ps-2">Budgeting Keuangan</h4>
-                <?php if (!$is_edit): ?>
-                <div class="pe-3">
-                    <a href="budgeting.php?edit=true" class="btn btn-primary-custom px-4 py-2 fw-bold rounded-3 text-decoration-none">
-                        <i class="bi bi-pencil-square me-1"></i> Edit Rencana
+                <!-- Judul Kiri -->
+                <h4 class="fw-bold text-dark-custom mb-0 ps-2">Pengaturan Akun</h4>
+                
+                <!-- Dropdown Profil Kanan -->
+                <div class="dropdown pe-3">
+                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                        
+                        <!-- Logika Tampilkan Foto / Ikon -->
+                        <?php if (!empty($_SESSION['foto_profil']) && file_exists('../images/profil/' . $_SESSION['foto_profil'])): ?>
+                            <img src="../images/profil/<?= $_SESSION['foto_profil']; ?>" alt="Foto Profil" class="rounded-circle object-fit-cover me-3 shadow-sm" style="width: 45px; height: 45px; border: 2px solid #1a56db;">
+                        <?php else: ?>
+                            <i class="bi bi-person-circle text-secondary fs-1 me-3"></i>
+                        <?php endif; ?>
+
+                        <div class="d-flex flex-column text-start">
+                            <span class="fw-bold text-dark-custom lh-1"><?= htmlspecialchars($_SESSION['nama_lengkap'] ?? 'Pengguna'); ?></span>
+                            <span class="text-secondary small mt-1 fw-semibold">Pengguna aktif</span>
+                        </div>
                     </a>
+                    
+                    <!-- Isi Menu Melayang -->
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 p-3 mt-2" aria-labelledby="dropdownUser" style="width: 250px; background-color: #ffffff;">
+                        <li class="px-2 py-1 mb-2 d-flex align-items-center">
+                            <?php if (!empty($_SESSION['foto_profil']) && file_exists('../images/profil/' . $_SESSION['foto_profil'])): ?>
+                                <img src="../images/profil/<?= $_SESSION['foto_profil']; ?>" alt="Foto Profil" class="rounded-circle object-fit-cover me-3" style="width: 40px; height: 40px;">
+                            <?php else: ?>
+                                <i class="bi bi-person-circle text-secondary fs-2 me-3"></i>
+                            <?php endif; ?>
+                            <div class="overflow-hidden">
+                                <span class="fw-bold text-dark-custom d-block text-truncate"><?= htmlspecialchars($_SESSION['nama_lengkap'] ?? 'Pengguna'); ?></span>
+                                <small class="text-secondary d-block text-truncate"><?= htmlspecialchars($_SESSION['email'] ?? 'Akun CuanTrack'); ?></small>
+                            </div>
+                        </li>
+                        <li><span class="badge bg-success-subtle text-success border border-success-subtle w-100 py-1 mt-1" style="font-size: 0.7rem;">🟢 Pengguna Aktif</span></li>
+                        <li><hr class="dropdown-divider opacity-10 my-2"></li>
+                        
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 fw-semibold text-dark-custom d-flex align-items-center" href="pengaturan.php">
+                                <i class="bi bi-gear-fill text-primary-custom me-2 fs-6"></i> Pengaturan Akun
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 fw-semibold text-dark-custom d-flex align-items-center" href="analisa.php">
+                                <i class="bi bi-pie-chart-fill text-primary-custom me-2 fs-6"></i> Analisa Keuangan
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider opacity-10 my-2"></li>
+                        
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 fw-bold text-danger d-flex align-items-center" href="logout.php" onclick="return confirm('Yakin ingin keluar dari aplikasi CuanTrack?');">
+                                <i class="bi bi-box-arrow-right me-2 fs-6"></i> Keluar
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <?php else: ?>
-                <div class="d-flex align-items-center pe-3">
-                    <i class="bi bi-person-circle text-secondary fs-1 me-3"></i>
-                    <div class="d-flex flex-column">
-                        <span class="fw-bold text-dark-custom lh-1"><?= $_SESSION['nama_lengkap']; ?></span>
-                        <span class="text-secondary small mt-1 fw-semibold">Pengguna aktif</span>
-                    </div>
-                </div>
-                <?php endif; ?>
             </header>
 
             <div class="p-4 p-md-5 mx-auto" style="max-width: 1100px; width: 100%;">
@@ -391,9 +458,27 @@ $is_edit = isset($_GET['edit']) || !$rencana;
                             $kebutuhan = $pend * 0.50; $keinginan = $pend * 0.30; $tabungan  = $pend * 0.20;
                         ?>
                         <div class="row g-4 mb-4">
-                            <div class="col-md-4"><div class="box-503020 shadow-sm"><div class="icon-box-503020 bg-primary-custom text-white">🥗</div><span class="badge bg-light text-primary-custom border mb-2 fw-bold">50% Kebutuhan Pokok</span><h4 class="fw-bold text-dark-custom mb-2">Rp <?= number_format($kebutuhan, 0, '', '.'); ?></h4></div></div>
-                            <div class="col-md-4"><div class="box-503020 shadow-sm"><div class="icon-box-503020 text-white" style="background-color: #f59e0b;">🍿</div><span class="badge bg-light text-warning border mb-2 fw-bold" style="color: #d97706 !important;">30% Keinginan</span><h4 class="fw-bold text-dark-custom mb-2">Rp <?= number_format($keinginan, 0, '', '.'); ?></h4></div></div>
-                            <div class="col-md-4"><div class="box-503020 shadow-sm"><div class="icon-box-503020 text-white" style="background-color: #10b981;">💰</div><span class="badge bg-light text-success border mb-2 fw-bold">20% Tabungan / Invest</span><h4 class="fw-bold text-dark-custom mb-2">Rp <?= number_format($tabungan, 0, '', '.'); ?></h4></div></div>
+                            <div class="col-md-4">
+                                <div class="box-503020 shadow-sm">
+                                    <div class="icon-box-503020 bg-primary-custom text-white">🥗</div>
+                                    <span class="badge bg-light text-primary-custom border mb-2 fw-bold">50% Kebutuhan Pokok</span>
+                                    <h4 class="fw-bold text-dark-custom mb-2">Rp <?= number_format($kebutuhan, 0, '', '.'); ?></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="box-503020 shadow-sm">
+                                    <div class="icon-box-503020 text-white" style="background-color: #f59e0b;">🍿</div>
+                                    <span class="badge bg-light text-warning border mb-2 fw-bold" style="color: #d97706 !important;">30% Keinginan</span>
+                                    <h4 class="fw-bold text-dark-custom mb-2">Rp <?= number_format($keinginan, 0, '', '.'); ?></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="box-503020 shadow-sm">
+                                    <div class="icon-box-503020 text-white" style="background-color: #10b981;">💰</div>
+                                    <span class="badge bg-light text-success border mb-2 fw-bold">20% Tabungan / Invest</span>
+                                    <h4 class="fw-bold text-dark-custom mb-2">Rp <?= number_format($tabungan, 0, '', '.'); ?></h4>
+                                </div>
+                            </div>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -403,18 +488,102 @@ $is_edit = isset($_GET['edit']) || !$rencana;
     </div>
 
     <!-- POPUP MODALS -->
-    <div class="modal fade" id="modalNabung" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content rounded-4 border-0 shadow-lg"><div class="modal-header border-bottom-0 pt-4 px-4"><h5 class="modal-title fw-bold text-dark-custom"><i class="bi bi-piggy-bank-fill text-primary-custom me-2"></i>Nyicil Tabungan</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form action="" method="POST"><div class="modal-body px-4 py-3"><input type="hidden" name="kategori_cicilan" value="Investasi"><div class="mb-3"><label class="form-label small fw-bold text-dark-custom mb-1">Nominal (Rp)</label><input type="text" name="nominal_cicilan" class="form-control form-control-custom input-rupiah" placeholder="Misal: 150.000" required autocomplete="off" autofocus></div></div><div class="modal-footer border-top-0 pb-4 px-4"><button type="button" class="btn btn-light border px-4 py-2 fw-bold rounded-3" data-bs-dismiss="modal">Batal</button><button type="submit" name="simpan_cicilan" class="btn btn-primary-custom px-4 py-2 fw-bold rounded-3">Simpan Tabungan</button></div></form></div></div></div>
+    <div class="modal fade" id="modalNabung" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-bottom-0 pt-4 px-4">
+                    <h5 class="modal-title fw-bold text-dark-custom">
+                        <i class="bi bi-piggy-bank-fill text-primary-custom me-2"></i>Nyicil Tabungan
+                    </h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="" method="POST">
+                    <div class="modal-body px-4 py-3">
+                        <input type="hidden" name="kategori_cicilan" value="Investasi">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-dark-custom mb-1">Nominal (Rp)</label>
+                            <input type="text" name="nominal_cicilan" class="form-control form-control-custom input-rupiah" placeholder="Misal: 150.000" required autocomplete="off" autofocus>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0 pb-4 px-4">
+                        <button type="button" class="btn btn-light border px-4 py-2 fw-bold rounded-3" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" name="simpan_cicilan" class="btn btn-primary-custom px-4 py-2 fw-bold rounded-3">Simpan Tabungan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    <div class="modal fade" id="modalDarurat" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content rounded-4 border-0 shadow-lg"><div class="modal-header border-bottom-0 pt-4 px-4"><h5 class="modal-title fw-bold text-dark-custom"><i class="bi bi-shield-fill-check text-primary-custom me-2"></i>Sisihkan Dana Darurat</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form action="" method="POST"><div class="modal-body px-4 py-3"><input type="hidden" name="kategori_cicilan" value="Lainnya"><div class="mb-3"><label class="form-label small fw-bold text-dark-custom mb-1">Nominal (Rp)</label><input type="text" name="nominal_cicilan" class="form-control form-control-custom input-rupiah" placeholder="Misal: 500.000" required autocomplete="off"></div></div><div class="modal-footer border-top-0 pb-4 px-4"><button type="button" class="btn btn-light border px-4 py-2 fw-bold rounded-3" data-bs-dismiss="modal">Batal</button><button type="submit" name="simpan_cicilan" class="btn btn-primary-custom px-4 py-2 fw-bold rounded-3">Simpan Dana Darurat</button></div></form></div></div></div>
+    <div class="modal fade" id="modalDarurat" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-bottom-0 pt-4 px-4">
+                    <h5 class="modal-title fw-bold text-dark-custom">
+                        <i class="bi bi-shield-fill-check text-primary-custom me-2"></i>Sisihkan Dana Darurat
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="" method="POST">
+                    <div class="modal-body px-4 py-3">
+                        <input type="hidden" name="kategori_cicilan" value="Lainnya">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-dark-custom mb-1">Nominal (Rp)</label>
+                            <input type="text" name="nominal_cicilan" class="form-control form-control-custom input-rupiah" placeholder="Misal: 500.000" required autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0 pb-4 px-4">
+                        <button type="button" class="btn btn-light border px-4 py-2 fw-bold rounded-3" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" name="simpan_cicilan" class="btn btn-primary-custom px-4 py-2 fw-bold rounded-3">Simpan Dana Darurat</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    <div class="modal fade" id="modalGantiBarang" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content rounded-4 border-0 shadow-lg"><div class="modal-header border-bottom-0 pt-4 px-4"><h5 class="modal-title fw-bold text-dark-custom"><i class="bi bi-cart-plus-fill text-primary-custom me-2"></i>Buat Target Barang Baru</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><form action="" method="POST"><div class="modal-body px-4 py-3"><p class="text-secondary-custom small mb-3">Selamat atas tercapainya target sebelumnya! Sekarang, apa barang impian baru yang ingin kamu kejar?</p><div class="mb-3"><label class="form-label small fw-bold text-dark-custom mb-1">Nama Barang Impian Baru</label><input type="text" name="nama_barang" class="form-control form-control-custom" placeholder="Misal: Sepatu Running, Smartphone..." required autocomplete="off" autofocus></div><div class="mb-3"><label class="form-label small fw-bold text-dark-custom mb-1">Perkiraan Harga (Rp)</label><input type="text" name="harga_barang" class="form-control form-control-custom input-rupiah" placeholder="Misal: 1.500.000" required autocomplete="off"></div></div><div class="modal-footer border-top-0 pb-4 px-4"><button type="button" class="btn btn-light border px-4 py-2 fw-bold rounded-3" data-bs-dismiss="modal">Batal</button><button type="submit" name="simpan_barang_baru" class="btn btn-primary-custom px-4 py-2 fw-bold rounded-3">Simpan Target Baru</button></div></form></div></div></div>
+    <div class="modal fade" id="modalGantiBarang" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-bottom-0 pt-4 px-4">
+                    <h5 class="modal-title fw-bold text-dark-custom">
+                        <i class="bi bi-cart-plus-fill text-primary-custom me-2"></i>Buat Target Barang Baru
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div><form action="" method="POST">
+                    <div class="modal-body px-4 py-3">
+                        <p class="text-secondary-custom small mb-3">Selamat atas tercapainya target sebelumnya! Sekarang, apa barang impian baru yang ingin kamu kejar?</p>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-dark-custom mb-1">Nama Barang Impian Baru</label>
+                            <input type="text" name="nama_barang" class="form-control form-control-custom" placeholder="Misal: Sepatu Running, Smartphone..." required autocomplete="off" autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-dark-custom mb-1">Perkiraan Harga (Rp)</label>
+                            <input type="text" name="harga_barang" class="form-control form-control-custom input-rupiah" placeholder="Misal: 1.500.000" required autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0 pb-4 px-4">
+                        <button type="button" class="btn btn-light border px-4 py-2 fw-bold rounded-3" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" name="simpan_barang_baru" class="btn btn-primary-custom px-4 py-2 fw-bold rounded-3">Simpan Target Baru</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <nav class="mobile-bottom-nav d-md-none">
-        <a href="beranda.php" class="nav-item-mobile"><i class="bi bi-house-door-fill"></i><span>Beranda</span></a>
-        <a href="budgeting.php" class="nav-item-mobile active"><i class="bi bi-bullseye"></i><span>Budgeting</span></a>
-        <a href="catat_transaksi.php" class="nav-item-mobile text-primary-custom" style="transform: translateY(-10px);"><i class="bi bi-plus-circle-fill" style="font-size: 2.2rem; filter: drop-shadow(0 4px 6px rgba(26,86,219,0.3));"></i><span style="margin-top: -3px;">Catat</span></a>
-        <a href="riwayat_transaksi.php" class="nav-item-mobile"><i class="bi bi-clock-history"></i><span>Riwayat</span></a>
-        <a href="pengaturan.php" class="nav-item-mobile"><i class="bi bi-gear-fill"></i><span>Pengaturan</span></a>
+        <a href="beranda.php" class="nav-item-mobile">
+            <i class="bi bi-house-door-fill"></i><span>Beranda</span>
+        </a>
+        <a href="budgeting.php" class="nav-item-mobile active">
+            <i class="bi bi-bullseye"></i><span>Budgeting</span>
+        </a>
+        <a href="catat_transaksi.php" class="nav-item-mobile text-primary-custom" style="transform: translateY(-10px);">
+            <i class="bi bi-plus-circle-fill" style="font-size: 2.2rem; filter: drop-shadow(0 4px 6px rgba(26,86,219,0.3));"></i><span style="margin-top: -3px;">Catat</span>
+        </a>
+        <a href="riwayat_transaksi.php" class="nav-item-mobile">
+            <i class="bi bi-clock-history"></i><span>Riwayat</span>
+        </a>
+        <a href="pengaturan.php" class="nav-item-mobile">
+            <i class="bi bi-gear-fill"></i><span>Pengaturan</span>
+        </a>
     </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -43,6 +43,7 @@ if (isset($_POST['btn_update_profil'])) {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -203,10 +204,39 @@ if (isset($_POST['btn_update_profil'])) {
                     <form action="" method="POST" enctype="multipart/form-data">
                         
                         <!-- Input Upload Foto -->
-                        <div class="mb-3">
-                            <label class="form-label small fw-bold text-dark-custom mb-1">Foto Profil (Opsional)</label>
-                            <input type="file" name="foto_profil" class="form-control form-control-custom" accept=".jpg, .jpeg, .png">
-                            <small class="text-secondary" style="font-size: 0.75rem;">Format wajib: JPG/PNG. Ukuran maksimal: 2 MB.</small>
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold text-dark-custom mb-2">Foto Profil</label>
+                            <div class="d-flex align-items-center p-3 rounded-4 bg-white border" style="border-color: rgba(0,0,0,0.08) !important;">
+                                
+                                <!-- Lingkaran Preview Foto -->
+                                <div class="position-relative me-4 flex-shrink-0">
+                                    <?php if (!empty($_SESSION['foto_profil']) && file_exists('../images/profil/' . $_SESSION['foto_profil'])): ?>
+                                        <img src="../images/profil/<?= $_SESSION['foto_profil']; ?>" id="previewFoto" alt="Foto Profil" class="rounded-circle object-fit-cover shadow-sm" style="width: 80px; height: 80px; border: 3px solid #1a56db;">
+                                    <?php else: ?>
+                                        <div id="previewDefault" class="rounded-circle bg-light text-secondary d-flex align-items-center justify-content-center shadow-sm" style="width: 80px; height: 80px; border: 2px dashed #cbd5e1;">
+                                            <i class="bi bi-person-fill" style="font-size: 2.5rem;"></i>
+                                        </div>
+                                        <img src="" id="previewFoto" alt="Foto Profil" class="rounded-circle object-fit-cover shadow-sm d-none" style="width: 80px; height: 80px; border: 3px solid #1a56db;">
+                                    <?php endif; ?>
+                                </div>
+
+                                <!-- Tombol Ganti & Keterangan -->
+                                <div class="flex-grow-1">
+                                    <div class="d-flex flex-wrap gap-2 mb-1">
+                                        <!-- Tombol yang memicu input file tersembunyi -->
+                                        <label for="inputFotoProfil" class="btn btn-sm btn-primary-custom px-3 py-2 fw-bold rounded-3 shadow-sm d-inline-flex align-items-center cursor-pointer">
+                                            <i class="bi bi-camera-fill me-2 fs-6"></i> Ganti Foto
+                                        </label>
+                                        
+                                        <!-- Input file ASLI (Dembunyikan dengan d-none) -->
+                                        <input type="file" name="foto_profil" id="inputFotoProfil" class="d-none" accept=".jpg, .jpeg, .png" onchange="previewImage(event)">
+                                    </div>
+                                    <div class="text-secondary" style="font-size: 0.75rem; line-height: 1.4;">
+                                        Format yang didukung: JPG, JPEG, atau PNG.<br>Ukuran maksimal file adalah <b>2 MB</b>.
+                                    </div>
+                                </div>
+                                
+                            </div>
                         </div>
 
                         <!-- Input Nama Lengkap -->
@@ -285,11 +315,21 @@ if (isset($_POST['btn_update_profil'])) {
 
     <!-- BOTTOM NAV MOBILE -->
     <nav class="mobile-bottom-nav d-md-none">
-        <a href="beranda.php" class="nav-item-mobile"><i class="bi bi-house-door-fill"></i><span>Beranda</span></a>
-        <a href="budgeting.php" class="nav-item-mobile"><i class="bi bi-bullseye"></i><span>Budgeting</span></a>
-        <a href="catat_transaksi.php" class="nav-item-mobile text-primary-custom" style="transform: translateY(-10px);"><i class="bi bi-plus-circle-fill" style="font-size: 2.2rem; filter: drop-shadow(0 4px 6px rgba(26,86,219,0.3));"></i><span style="margin-top: -3px;">Catat</span></a>
-        <a href="riwayat_transaksi.php" class="nav-item-mobile"><i class="bi bi-clock-history"></i><span>Riwayat</span></a>
-        <a href="pengaturan.php" class="nav-item-mobile active"><i class="bi bi-gear-fill"></i><span>Pengaturan</span></a>
+        <a href="beranda.php" class="nav-item-mobile">
+            <i class="bi bi-house-door-fill"></i><span>Beranda</span>
+        </a>
+        <a href="budgeting.php" class="nav-item-mobile">
+            <i class="bi bi-bullseye"></i><span>Budgeting</span>
+        </a>
+        <a href="catat_transaksi.php" class="nav-item-mobile text-primary-custom" style="transform: translateY(-10px);">
+            <i class="bi bi-plus-circle-fill" style="font-size: 2.2rem; filter: drop-shadow(0 4px 6px rgba(26,86,219,0.3));"></i><span style="margin-top: -3px;">Catat</span>
+        </a>
+        <a href="riwayat_transaksi.php" class="nav-item-mobile">
+            <i class="bi bi-clock-history"></i><span>Riwayat</span>
+        </a>
+        <a href="pengaturan.php" class="nav-item-mobile active">
+            <i class="bi bi-gear-fill"></i><span>Pengaturan</span>
+        </a>
     </nav>
 
     <!-- SCRIPT INTIP KATA SANDI -->

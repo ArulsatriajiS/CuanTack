@@ -96,8 +96,16 @@ $ikon_kategori = [
             </ul>
             <hr class="border-secondary opacity-25 mx-2">
             <ul class="nav nav-pills flex-column gap-2 mb-3">
-                <li class="nav-item"><a href="#" class="nav-link nav-link-custom d-flex align-items-center"><i class="bi bi-gear-fill me-3 fs-5"></i> Pengaturan</a></li>
-                <li class="nav-item"><a href="logout.php" class="nav-link nav-link-custom d-flex align-items-center"><i class="bi bi-box-arrow-right me-3 fs-5"></i> Keluar</a></li>
+                <li class="nav-item">
+                    <a href="pengaturan.php" class="nav-link nav-link-custom d-flex align-items-center">
+                        <i class="bi bi-gear-fill me-3 fs-5"></i> Pengaturan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="logout.php" class="nav-link nav-link-custom d-flex align-items-center">
+                        <i class="bi bi-box-arrow-right me-3 fs-5"></i> Keluar
+                    </a>
+                </li>
             </ul>
         </aside>
 
@@ -105,13 +113,60 @@ $ikon_kategori = [
         <main class="flex-grow-1 d-flex flex-column overflow-y-auto">
             
             <header class="d-flex justify-content-between align-items-center p-4 border-bottom bg-white">
-                <h4 class="fw-bold text-dark-custom mb-0 ps-2">Riwayat Transaksi</h4>
-                <div class="d-flex align-items-center pe-3">
-                    <i class="bi bi-person-circle text-secondary fs-1 me-3"></i>
-                    <div class="d-flex flex-column">
-                        <span class="fw-bold text-dark-custom lh-1"><?= $_SESSION['nama_lengkap']; ?></span>
-                        <span class="text-secondary small mt-1 fw-semibold">Pengguna aktif</span>
-                    </div>
+                <!-- Judul Kiri -->
+                <h4 class="fw-bold text-dark-custom mb-0 ps-2">Pengaturan Akun</h4>
+                
+                <!-- Dropdown Profil Kanan -->
+                <div class="dropdown pe-3">
+                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                        
+                        <!-- Logika Tampilkan Foto / Ikon -->
+                        <?php if (!empty($_SESSION['foto_profil']) && file_exists('../images/profil/' . $_SESSION['foto_profil'])): ?>
+                            <img src="../images/profil/<?= $_SESSION['foto_profil']; ?>" alt="Foto Profil" class="rounded-circle object-fit-cover me-3 shadow-sm" style="width: 45px; height: 45px; border: 2px solid #1a56db;">
+                        <?php else: ?>
+                            <i class="bi bi-person-circle text-secondary fs-1 me-3"></i>
+                        <?php endif; ?>
+
+                        <div class="d-flex flex-column text-start">
+                            <span class="fw-bold text-dark-custom lh-1"><?= htmlspecialchars($_SESSION['nama_lengkap'] ?? 'Pengguna'); ?></span>
+                            <span class="text-secondary small mt-1 fw-semibold">Pengguna aktif</span>
+                        </div>
+                    </a>
+                    
+                    <!-- Isi Menu Melayang -->
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-4 p-3 mt-2" aria-labelledby="dropdownUser" style="width: 250px; background-color: #ffffff;">
+                        <li class="px-2 py-1 mb-2 d-flex align-items-center">
+                            <?php if (!empty($_SESSION['foto_profil']) && file_exists('../images/profil/' . $_SESSION['foto_profil'])): ?>
+                                <img src="../images/profil/<?= $_SESSION['foto_profil']; ?>" alt="Foto Profil" class="rounded-circle object-fit-cover me-3" style="width: 40px; height: 40px;">
+                            <?php else: ?>
+                                <i class="bi bi-person-circle text-secondary fs-2 me-3"></i>
+                            <?php endif; ?>
+                            <div class="overflow-hidden">
+                                <span class="fw-bold text-dark-custom d-block text-truncate"><?= htmlspecialchars($_SESSION['nama_lengkap'] ?? 'Pengguna'); ?></span>
+                                <small class="text-secondary d-block text-truncate"><?= htmlspecialchars($_SESSION['email'] ?? 'Akun CuanTrack'); ?></small>
+                            </div>
+                        </li>
+                        <li><span class="badge bg-success-subtle text-success border border-success-subtle w-100 py-1 mt-1" style="font-size: 0.7rem;">🟢 Pengguna Aktif</span></li>
+                        <li><hr class="dropdown-divider opacity-10 my-2"></li>
+                        
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 fw-semibold text-dark-custom d-flex align-items-center" href="pengaturan.php">
+                                <i class="bi bi-gear-fill text-primary-custom me-2 fs-6"></i> Pengaturan Akun
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 fw-semibold text-dark-custom d-flex align-items-center" href="analisa.php">
+                                <i class="bi bi-pie-chart-fill text-primary-custom me-2 fs-6"></i> Analisa Keuangan
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider opacity-10 my-2"></li>
+                        
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 fw-bold text-danger d-flex align-items-center" href="logout.php" onclick="return confirm('Yakin ingin keluar dari aplikasi CuanTrack?');">
+                                <i class="bi bi-box-arrow-right me-2 fs-6"></i> Keluar
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </header>
 
@@ -186,7 +241,9 @@ $ikon_kategori = [
                             <i class="bi bi-inbox text-secondary fs-1 mb-2 d-block"></i>
                             <h6 class="fw-bold text-dark-custom">Belum Ada Transaksi yang Dicatat</h6>
                             <p class="text-secondary-custom small mb-3">Yuk mulai catat pengeluaran dan pemasukanmu agar keuanganmu terlacak dengan rapi!</p>
-                            <a href="catat_transaksi.php" class="btn btn-primary-custom px-4 py-2 rounded-pill fw-bold small"><i class="bi bi-plus-lg me-1"></i> Catat Transaksi Sekarang</a>
+                            <a href="catat_transaksi.php" class="btn btn-primary-custom px-4 py-2 rounded-pill fw-bold small">
+                                <i class="bi bi-plus-lg me-1"></i> Catat Transaksi Sekarang
+                            </a>
                         </div>
                     <?php else: ?>
                         
@@ -263,11 +320,22 @@ $ikon_kategori = [
 
     <!-- BOTTOM NAV MOBILE -->
     <nav class="mobile-bottom-nav d-md-none">
-        <a href="beranda.php" class="nav-item-mobile"><i class="bi bi-house-door-fill"></i><span>Beranda</span></a>
-        <a href="budgeting.php" class="nav-item-mobile"><i class="bi bi-bullseye"></i><span>Budgeting</span></a>
-        <a href="catat_transaksi.php" class="nav-item-mobile text-primary-custom" style="transform: translateY(-10px);"><i class="bi bi-plus-circle-fill" style="font-size: 2.2rem; filter: drop-shadow(0 4px 6px rgba(26,86,219,0.3));"></i><span style="margin-top: -3px;">Catat</span></a>
-        <a href="riwayat_transaksi.php" class="nav-item-mobile active"><i class="bi bi-clock-history"></i><span>Riwayat</span></a>
-        <a href="analisa.php" class="nav-item-mobile"><i class="bi bi-pie-chart-fill"></i><span>Analisa</span></a>
+        <a href="beranda.php" class="nav-item-mobile">
+            <i class="bi bi-house-door-fill"></i><span>Beranda</span>
+        </a>
+        <a href="budgeting.php" class="nav-item-mobile">
+            <i class="bi bi-bullseye"></i><span>Budgeting</span>
+        </a>
+        <a href="catat_transaksi.php" class="nav-item-mobile text-primary-custom" style="transform: translateY(-10px);">
+            <i class="bi bi-plus-circle-fill" style="font-size: 2.2rem; filter: drop-shadow(0 4px 6px rgba(26,86,219,0.3));"></i>
+            <span style="margin-top: -3px;">Catat</span>
+        </a>
+        <a href="riwayat_transaksi.php" class="nav-item-mobile active">
+            <i class="bi bi-clock-history"></i><span>Riwayat</span>
+        </a>
+        <a href="analisa.php" class="nav-item-mobile">
+            <i class="bi bi-pie-chart-fill"></i><span>Analisa</span>
+        </a>
     </nav>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

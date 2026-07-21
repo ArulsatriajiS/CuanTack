@@ -40,35 +40,30 @@ function registrasi($data) {
 
 function login($data) {
     global $koneksi;
+    
+    $email = $data["email"];
+    $password = $data["password"];
 
-    $email = strtolower(trim($data['email'] ?? ''));
-    $password = $data['password'] ?? '';
+    $result = mysqli_query($koneksi, "SELECT * FROM users WHERE email = '$email'");
 
-    if (empty($email) || empty($password)) {
-        return false;
+    if (mysqli_num_rows($result) === 1) {
+        $row = mysqli_fetch_assoc($result);
+        
+        if (password_verify($password, $row["password"])) {
+            // Set session
+            $_SESSION["login"] = true;
+            $_SESSION["user_id"] = $row["id"];
+            $_SESSION["nama_lengkap"] = $row["nama_lengkap"];
+            $_SESSION["email"] = $row["email"];
+            
+            // === TAMBAHKAN BARIS INI DI DALAM FUNGSI LOGIN ===
+            $_SESSION["foto_profil"] = $row["foto"];
+            // =================================================
+
+            return true;
+        }
     }
-
-    $stmt = mysqli_prepare($koneksi, "SELECT id, nama_lengkap, password FROM users WHERE email = ?");
-    mysqli_stmt_bind_param($stmt, 's', $email);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $id, $nama_lengkap, $hash);
-
-    if (!mysqli_stmt_fetch($stmt)) {
-        mysqli_stmt_close($stmt);
-        return false;
-    }
-
-    mysqli_stmt_close($stmt);
-
-    if (!password_verify($password, $hash)) {
-        return false;
-    }
-
-    $_SESSION['login'] = true;
-    $_SESSION['user_id'] = $id;
-    $_SESSION['nama_lengkap'] = $nama_lengkap;
-
-    return true;
+    return false;
 }
 
 function simpan_rencana($data, $user_id) {
@@ -367,55 +362,6 @@ function get_stat_6_bulan($user_id) {
     return $data;
 }
 
-// ==========================================
-// FUNGSI GANTI KATA SANDI PENGGUNA
-// ==========================================
-function ganti_password($data, $user_id) {
-    global $koneksi;
-
-    $sandi_lama     = $data['sandi_lama'] ?? '';
-    $sandi_baru     = $data['sandi_baru'] ?? '';
-    $konfirmasi     = $data['konfirmasi_sandi'] ?? '';
-
-    if (empty($sandi_lama) || empty($sandi_baru) || empty($konfirmasi)) {
-        return "Semua kolom kata sandi wajib diisi!";
-    }
-
-    if ($sandi_baru !== $konfirmasi) {
-        return "Konfirmasi kata sandi baru tidak cocok!";
-    }
-
-    if (strlen($sandi_baru) < 6) {
-        return "Kata sandi baru minimal harus 6 karakter!";
-    }
-
-    // 1. Ambil hash kata sandi lama dari database
-    $stmt = mysqli_prepare($koneksi, "SELECT password FROM users WHERE id = ?");
-    mysqli_stmt_bind_param($stmt, 'i', $user_id);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $hash_db);
-    
-    if (!mysqli_stmt_fetch($stmt)) {
-        mysqli_stmt_close($stmt);
-        return "Pengguna tidak ditemukan!";
-    }
-    mysqli_stmt_close($stmt);
-
-    // 2. Verifikasi apakah kata sandi lama cocok
-    if (!password_verify($sandi_lama, $hash_db)) {
-        return "Kata sandi saat ini salah!";
-    }
-
-    // 3. Hash kata sandi baru & update ke database
-    $hash_baru = password_hash($sandi_baru, PASSWORD_DEFAULT);
-    $stmt_update = mysqli_prepare($koneksi, "UPDATE users SET password = ? WHERE id = ?");
-    mysqli_stmt_bind_param($stmt_update, 'si', $hash_baru, $user_id);
-    mysqli_stmt_execute($stmt_update);
-    $sukses = mysqli_stmt_affected_rows($stmt_update);
-    mysqli_stmt_close($stmt_update);
-
-    return ($sukses >= 0) ? "SUKSES" : "Gagal memperbarui kata sandi di database!";
-}
 
 // ==========================================
 // FUNGSI UPLOAD FOTO PROFIL
@@ -511,5 +457,56 @@ function update_profil($data, $user_id) {
         return "Gagal memperbarui profil di database!";
     }
 }
+
+// ==========================================
+// FUNGSI GANTI KATA SANDI PENGGUNA
+// ==========================================
+function ganti_password($data, $user_id) {
+    global $koneksi;
+
+    $sandi_lama     = $data['sandi_lama'] ?? '';
+    $sandi_baru     = $data['sandi_baru'] ?? '';
+    $konfirmasi     = $data['konfirmasi_sandi'] ?? '';
+
+    if (empty($sandi_lama) || empty($sandi_baru) || empty($konfirmasi)) {
+        return "Semua kolom kata sandi wajib diisi!";
+    }
+
+    if ($sandi_baru !== $konfirmasi) {
+        return "Konfirmasi kata sandi baru tidak cocok!";
+    }
+
+    if (strlen($sandi_baru) < 6) {
+        return "Kata sandi baru minimal harus 6 karakter!";
+    }
+
+    // 1. Ambil hash kata sandi lama dari database
+    $stmt = mysqli_prepare($koneksi, "SELECT password FROM users WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, 'i', $user_id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $hash_db);
+    
+    if (!mysqli_stmt_fetch($stmt)) {
+        mysqli_stmt_close($stmt);
+        return "Pengguna tidak ditemukan!";
+    }
+    mysqli_stmt_close($stmt);
+
+    // 2. Verifikasi apakah kata sandi lama cocok
+    if (!password_verify($sandi_lama, $hash_db)) {
+        return "Kata sandi saat ini salah!";
+    }
+
+    // 3. Hash kata sandi baru & update ke database
+    $hash_baru = password_hash($sandi_baru, PASSWORD_DEFAULT);
+    $stmt_update = mysqli_prepare($koneksi, "UPDATE users SET password = ? WHERE id = ?");
+    mysqli_stmt_bind_param($stmt_update, 'si', $hash_baru, $user_id);
+    mysqli_stmt_execute($stmt_update);
+    $sukses = mysqli_stmt_affected_rows($stmt_update);
+    mysqli_stmt_close($stmt_update);
+
+    return ($sukses >= 0) ? "SUKSES" : "Gagal memperbarui kata sandi di database!";
+}
+
 ?>
 
