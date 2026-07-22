@@ -66,6 +66,41 @@ function login($data) {
     return false;
 }
 
+function get_ringkasan_bulan_ini($user_id) {
+    global $koneksi;
+    $bulan_ini = date('m');
+    $tahun_ini = date('Y');
+
+    $stmt = mysqli_prepare($koneksi, "SELECT SUM(jumlah) as total FROM transaksi WHERE user_id = ? AND jenis = ? AND MONTH(tanggal) = ? AND YEAR(tanggal) = ?");
+    $masuk = 0;
+    $keluar = 0;
+
+    $jenis_masuk = 'Pemasukan';
+    mysqli_stmt_bind_param($stmt, 'isss', $user_id, $jenis_masuk, $bulan_ini, $tahun_ini);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $total_masuk);
+    if (mysqli_stmt_fetch($stmt) && $total_masuk !== null) {
+        $masuk = (int) $total_masuk;
+    }
+
+    mysqli_stmt_free_result($stmt);
+    $jenis_keluar = 'Pengeluaran';
+    mysqli_stmt_bind_param($stmt, 'isss', $user_id, $jenis_keluar, $bulan_ini, $tahun_ini);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $total_keluar);
+    if (mysqli_stmt_fetch($stmt) && $total_keluar !== null) {
+        $keluar = (int) $total_keluar;
+    }
+
+    mysqli_stmt_close($stmt);
+
+    return [
+        'pemasukan' => $masuk,
+        'pengeluaran' => $keluar,
+        'selisih' => $masuk - $keluar,
+    ];
+}
+
 function simpan_rencana($data, $user_id) {
     global $koneksi;
 
@@ -155,40 +190,6 @@ function simpan_transaksi($data, $user_id) {
     return $result;
 }
 
-function get_ringkasan_bulan_ini($user_id) {
-    global $koneksi;
-    $bulan_ini = date('m');
-    $tahun_ini = date('Y');
-
-    $stmt = mysqli_prepare($koneksi, "SELECT SUM(jumlah) as total FROM transaksi WHERE user_id = ? AND jenis = ? AND MONTH(tanggal) = ? AND YEAR(tanggal) = ?");
-    $masuk = 0;
-    $keluar = 0;
-
-    $jenis_masuk = 'Pemasukan';
-    mysqli_stmt_bind_param($stmt, 'isss', $user_id, $jenis_masuk, $bulan_ini, $tahun_ini);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $total_masuk);
-    if (mysqli_stmt_fetch($stmt) && $total_masuk !== null) {
-        $masuk = (int) $total_masuk;
-    }
-
-    mysqli_stmt_free_result($stmt);
-    $jenis_keluar = 'Pengeluaran';
-    mysqli_stmt_bind_param($stmt, 'isss', $user_id, $jenis_keluar, $bulan_ini, $tahun_ini);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $total_keluar);
-    if (mysqli_stmt_fetch($stmt) && $total_keluar !== null) {
-        $keluar = (int) $total_keluar;
-    }
-
-    mysqli_stmt_close($stmt);
-
-    return [
-        'pemasukan' => $masuk,
-        'pengeluaran' => $keluar,
-        'selisih' => $masuk - $keluar,
-    ];
-}
 
 function get_riwayat($user_id, $filter_jenis = '', $keyword = '') {
     global $koneksi;
