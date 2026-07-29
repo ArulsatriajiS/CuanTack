@@ -1,18 +1,12 @@
 <?php
-// Pengaturan default Laragon
-$host       = "localhost";
-$user       = "root";
-$password   = ""; 
-$database   = "cuan_track"; 
+$host     = "cuantrack-db.mysql.database.azure.com"; // Host database Azure kamu
+$username = "admincuan";                             // Username database Azure
+$password = "CuanTrack123!";                  // Ganti dengan password Azure MySQL kamu yang asli
+$database = "cuan_track";                            // Nama database yang kita buat di HeidiSQL tadi
 
-// Membuat koneksi
-$koneksi = mysqli_connect($host, $user, $password, $database);
+$koneksi = mysqli_connect($host, $username, $password, $database);
 
-// Mengecek koneksi
 if (!$koneksi) {
-    die("Koneksi ke database gagal: " . mysqli_connect_error());
+    die("Koneksi database gagal: " . mysqli_connect_error());
 }
-
-// Set charset untuk memastikan teks dan password tersimpan dengan benar
-mysqli_set_charset($koneksi, 'utf8mb4');
 ?>

@@ -328,7 +328,7 @@ $is_edit = isset($_GET['edit']) || !$rencana;
                     </div>
                     <span class="badge bg-primary-custom px-3 py-2 rounded-pill fw-semibold">Rencana Aktif 🟢</span>
                 </div>
-
+                
                 <!-- KARTU 1: TARGET NABUNG -->
                 <?php 
                     $per_bulan = $rencana['target_nabung'] / ($rencana['lama_nabung'] > 0 ? $rencana['lama_nabung'] : 1);
