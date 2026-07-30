@@ -520,25 +520,39 @@ function login_google($email, $nama) {
     $cek_email = mysqli_query($koneksi, "SELECT * FROM users WHERE email = '$email'");
     
     if (mysqli_num_rows($cek_email) === 1) {
-        // Jika akun SUDAH ADA, langsung set session dan izinkan login
+        // Jika akun SUDAH ADA, ambil datanya
+        $row = mysqli_fetch_assoc($cek_email);
+        
+        // Set session LENGKAP seperti login manual
         $_SESSION["login"] = true;
+        $_SESSION["user_id"] = $row["id"];
+        $_SESSION["nama_lengkap"] = $row["nama_lengkap"];
+        $_SESSION["email"] = $row["email"];
+        $_SESSION["foto_profil"] = $row["foto"];
+        
         return true;
         
     } else {
         // 2. Jika akun BELUM ADA, daftarkan otomatis ke tabel 'users'
-        
-        // Buat password acak yang dienkripsi
         $password_acak = password_hash(time(), PASSWORD_DEFAULT);
         
-        // Memasukkan data ke kolom nama_lengkap, email, dan password sesuai database
         $query = "INSERT INTO users (nama_lengkap, email, password) 
                   VALUES ('$nama', '$email', '$password_acak')";
                   
         mysqli_query($koneksi, $query);
         
-        // Setelah pendaftaran otomatis berhasil, langsung izinkan login
+        // Setelah pendaftaran otomatis berhasil
         if (mysqli_affected_rows($koneksi) > 0) {
+            // Ambil ID user yang baru saja dibuat oleh database
+            $user_id_baru = mysqli_insert_id($koneksi);
+            
+            // Set session LENGKAP untuk user baru ini
             $_SESSION["login"] = true;
+            $_SESSION["user_id"] = $user_id_baru;
+            $_SESSION["nama_lengkap"] = $nama;
+            $_SESSION["email"] = $email;
+            $_SESSION["foto_profil"] = null; // Default kosong
+            
             return true;
         }
         

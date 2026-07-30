@@ -5,39 +5,36 @@ session_start();
 // Panggil file fungsi
 require 'fungsi.php';
 
-// Jika user sudah login sebelumnya, langsung arahkan ke beranda (tidak perlu login lagi)
-if (isset($_SESSION["login"])) {
-    header("Location: beranda.php");
-    exit;
-}
-
-// Jika tombol masuk ditekan
 // --- KODE PENANGKAP LOGIN GOOGLE ---
 if (isset($_POST['credential'])) {
-    // Google mengirim token JWT, kita pecah untuk ambil data email & namanya
     $jwt = $_POST['credential'];
     $parts = explode('.', $jwt);
-    $payload = json_decode(base64_decode($parts[1]), true);
     
-    $email_google = $payload['email'];
-    $nama_google = $payload['name'];
+    // Memperbaiki format base64 Google agar bisa dibaca PHP dengan sempurna
+    $base64 = str_replace(['-', '_'], ['+', '/'], $parts[1]);
+    $pad = strlen($base64) % 4;
+    if ($pad) {
+        $base64 .= str_repeat('=', 4 - $pad);
+    }
     
-    // Kirim ke fungsi khusus Google di fungsi.php
-    if (login_google($email_google, $nama_google)) {
-        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
-        echo "<script>
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: 'Berhasil masuk dengan Google!',
-                    icon: 'success',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Lanjut'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = 'beranda.php';
-                    }
-                });
-            </script>";
+    $payload = json_decode(base64_decode($base64), true);
+    
+    // Pastikan data berhasil dibaca dan tidak kosong
+    if ($payload && isset($payload['email'])) {
+        $email_google = $payload['email'];
+        $nama_google = $payload['name'];
+        
+        // Kirim ke fungsi khusus Google di fungsi.php
+        if (login_google($email_google, $nama_google)) {
+            // HAPUS SWEETALERT, LANGSUNG TERBANG KE BERANDA
+            header("Location: beranda.php");
+            exit;
+        } else {
+            echo "<script>alert('Gagal menyimpan data ke database!'); window.location.href='login.php';</script>";
+            exit;
+        }
+    } else {
+        echo "<script>alert('Error: Data dari Google tidak terbaca!'); window.location.href='login.php';</script>";
         exit;
     }
 }

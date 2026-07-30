@@ -107,7 +107,7 @@ if (isset($_POST['btn_daftar'])) {
                 data-client_id="147298938133-k3sqkpmkc8d9d8musj174fl5uoqa8lab.apps.googleusercontent.com"
                 data-context="signin"
                 data-ux_mode="redirect"
-                data-login_uri="https://cuantrack-app-bra4dtcydteyb2bh.indonesiacentral-01.azurewebsites.net/code/daftar.php"
+                data-login_uri="https://cuantrack-app-bra4dtcydteyb2bh.indonesiacentral-01.azurewebsites.net/code/login.php"
                 data-auto_prompt="false">
             </div>
 
