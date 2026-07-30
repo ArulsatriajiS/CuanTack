@@ -5,12 +5,20 @@ session_start();
 // Panggil file fungsi
 require 'fungsi.php';
 
-// --- KODE PENANGKAP LOGIN GOOGLE ---
+// 1. Jika sudah login sebelumnya, langsung arahkan ke beranda
+if (isset($_SESSION["login"])) {
+    echo "<script>window.location.href = 'beranda.php';</script>";
+    exit;
+}
+
+// ==========================================
+// 2. KODE PENANGKAP LOGIN GOOGLE
+// ==========================================
 if (isset($_POST['credential'])) {
     $jwt = $_POST['credential'];
     $parts = explode('.', $jwt);
     
-    // Memperbaiki format base64 Google agar bisa dibaca PHP dengan sempurna
+    // Memperbaiki format base64 Google
     $base64 = str_replace(['-', '_'], ['+', '/'], $parts[1]);
     $pad = strlen($base64) % 4;
     if ($pad) {
@@ -19,15 +27,13 @@ if (isset($_POST['credential'])) {
     
     $payload = json_decode(base64_decode($base64), true);
     
-    // Pastikan data berhasil dibaca dan tidak kosong
     if ($payload && isset($payload['email'])) {
         $email_google = $payload['email'];
         $nama_google = $payload['name'];
         
-        // Kirim ke fungsi khusus Google di fungsi.php
         if (login_google($email_google, $nama_google)) {
-            // HAPUS SWEETALERT, LANGSUNG TERBANG KE BERANDA
-            header("Location: beranda.php");
+            // Menggunakan JS Redirect (Anti Layar Putih!)
+            echo "<script>window.location.href = 'beranda.php';</script>";
             exit;
         } else {
             echo "<script>alert('Gagal menyimpan data ke database!'); window.location.href='login.php';</script>";
@@ -36,6 +42,39 @@ if (isset($_POST['credential'])) {
     } else {
         echo "<script>alert('Error: Data dari Google tidak terbaca!'); window.location.href='login.php';</script>";
         exit;
+    }
+}
+
+// ==========================================
+// 3. KODE PENANGKAP LOGIN MANUAL (DIKEMBALIKAN)
+// ==========================================
+if (isset($_POST['btn_login'])) {
+    if (login($_POST)) {
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
+        echo "<script>
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: 'Anda berhasil masuk',
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Oke'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'beranda.php';
+                    }
+                });
+            </script>";
+        exit;
+    } else {
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
+        echo "<script>
+                Swal.fire({
+                    title: 'Login Gagal',
+                    text: 'Email atau Kata Sandi salah!',
+                    icon: 'error',
+                    confirmButtonColor: '#d33'
+                });
+            </script>";
     }
 }
 ?>
