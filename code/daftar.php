@@ -7,10 +7,20 @@ if (isset($_POST['btn_daftar'])) {
     
     // Kirim semua data form ($_POST) ke fungsi registrasi()
     if (registrasi($_POST) > 0) {
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
         echo "<script>
-                alert('Pendaftaran berhasil! Silakan Login.');
-                window.location='login.php';
-              </script>";
+            Swal.fire({
+                title: 'Pendaftaran Berhasil!',
+                text: 'Akun CuanTrack kamu sudah aktif. Silakan masuk.',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Masuk Sekarang'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'login.php'; // Mengarahkan user ke halaman login
+                }
+            });
+        </script>";
     } else {
         echo mysqli_error($koneksi);
     }
@@ -31,6 +41,10 @@ if (isset($_POST['btn_daftar'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- File CSS khusus untuk Daftar -->
     <link rel="stylesheet" href="daftar.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body class="register-bg">
 
@@ -88,11 +102,29 @@ if (isset($_POST['btn_daftar'])) {
                 <hr class="flex-grow-1 divider-line">
             </div>
 
+            <!-- Konfigurasi Google (Tidak terlihat di layar) -->
+            <div id="g_id_onload"
+                data-client_id="147298938133-k3sqkpmkc8d9d8musj174fl5uoqa8lab.apps.googleusercontent.com"
+                data-context="signin"
+                data-ux_mode="redirect"
+                data-login_uri="https://cuantrack-app-bra4dtcydteyb2bh.indonesiacentral-01.azurewebsites.net/code/daftar.php"
+                data-auto_prompt="false">
+            </div>
+
+            <!-- Tampilan Tombol Google-nya -->
+            <div class="g_id_signin"
+                data-type="standard"
+                data-shape="rectangular"
+                data-theme="outline"
+                data-text="signin_with"
+                data-size="large"
+                data-logo_alignment="left">
+            </div>
             <!-- Tombol Masuk dengan Google -->
-            <button type="button" class="btn btn-google w-100 d-flex align-items-center justify-content-center fw-semibold py-2 mb-4">
+            <!-- <button type="button" class="btn btn-google w-100 d-flex align-items-center justify-content-center fw-semibold py-2 mb-4">
                 <img src="../images/google.png" alt="Google" style="width: 20px;" class="me-2">
                 Masuk dengan Google
-            </button>
+            </button> -->
 
             <div class="text-center">
                 <p class="text-muted mb-0" style="font-size: 0.85rem;">
