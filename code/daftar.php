@@ -112,13 +112,17 @@ if (isset($_POST['btn_daftar'])) {
             </div>
 
             <!-- Tampilan Tombol Google-nya -->
-            <div class="g_id_signin"
-                data-type="standard"
-                data-shape="rectangular"
-                data-theme="outline"
-                data-text="signin_with"
-                data-size="large"
-                data-logo_alignment="left">
+            <!-- Tampilan Tombol Google-nya -->
+            <div class="d-flex justify-content-center mb-4 w-100">
+                <div class="g_id_signin"
+                    data-type="standard"
+                    data-shape="rectangular"
+                    data-theme="outline"
+                    data-text="continue_with"
+                    data-size="large"
+                    data-logo_alignment="center"
+                    data-width="360">
+                </div>
             </div>
             <!-- Tombol Masuk dengan Google -->
             <!-- <button type="button" class="btn btn-google w-100 d-flex align-items-center justify-content-center fw-semibold py-2 mb-4">
