@@ -126,13 +126,17 @@ if (isset($_POST['credential'])) {
             </div>
 
             <!-- Tampilan Tombol Google-nya -->
-            <div class="g_id_signin"
-                data-type="standard"
-                data-shape="rectangular"
-                data-theme="outline"
-                data-text="signin_with"
-                data-size="large"
-                data-logo_alignment="left">
+            <!-- Tampilan Tombol Google-nya -->
+            <div class="d-flex justify-content-center mb-4 w-100">
+                <div class="g_id_signin"
+                    data-type="standard"
+                    data-shape="rectangular"
+                    data-theme="outline"
+                    data-text="continue_with"
+                    data-size="large"
+                    data-logo_alignment="center"
+                    data-width="360">
+                </div>
             </div>
             <!-- Teks Buat Akun -->
             <div class="text-center">
