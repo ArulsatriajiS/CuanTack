@@ -12,21 +12,29 @@ if (isset($_SESSION["login"])) {
 }
 
 // Jika tombol masuk ditekan
-if (isset($_POST['btn_login'])) {
+// --- KODE PENANGKAP LOGIN GOOGLE ---
+if (isset($_POST['credential'])) {
+    // Google mengirim token JWT, kita pecah untuk ambil data email & namanya
+    $jwt = $_POST['credential'];
+    $parts = explode('.', $jwt);
+    $payload = json_decode(base64_decode($parts[1]), true);
     
-    // Kirim data form ($_POST) ke fungsi login()
-    if (login($_POST)) {
+    $email_google = $payload['email'];
+    $nama_google = $payload['name'];
+    
+    // Kirim ke fungsi khusus Google di fungsi.php
+    if (login_google($email_google, $nama_google)) {
         echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
         echo "<script>
                 Swal.fire({
                     title: 'Berhasil!',
-                    text: 'Anda berhasil masuk',
+                    text: 'Berhasil masuk dengan Google!',
                     icon: 'success',
                     confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Oke'
+                    confirmButtonText: 'Lanjut'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = 'beranda.php'; // Ganti dengan halaman tujuanmu setelah login
+                        window.location.href = 'beranda.php';
                     }
                 });
             </script>";

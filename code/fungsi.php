@@ -509,5 +509,41 @@ function ganti_password($data, $user_id) {
     return ($sukses >= 0) ? "SUKSES" : "Gagal memperbarui kata sandi di database!";
 }
 
+function login_google($email, $nama) {
+    global $koneksi;
+    
+    // Keamanan ekstra: Mencegah karakter aneh masuk ke database
+    $email = mysqli_real_escape_string($koneksi, $email);
+    $nama = mysqli_real_escape_string($koneksi, $nama);
+    
+    // 1. Cek apakah email Google ini sudah ada di tabel 'users'
+    $cek_email = mysqli_query($koneksi, "SELECT * FROM users WHERE email = '$email'");
+    
+    if (mysqli_num_rows($cek_email) === 1) {
+        // Jika akun SUDAH ADA, langsung set session dan izinkan login
+        $_SESSION["login"] = true;
+        return true;
+        
+    } else {
+        // 2. Jika akun BELUM ADA, daftarkan otomatis ke tabel 'users'
+        
+        // Buat password acak yang dienkripsi
+        $password_acak = password_hash(time(), PASSWORD_DEFAULT);
+        
+        // Memasukkan data ke kolom nama_lengkap, email, dan password sesuai database
+        $query = "INSERT INTO users (nama_lengkap, email, password) 
+                  VALUES ('$nama', '$email', '$password_acak')";
+                  
+        mysqli_query($koneksi, $query);
+        
+        // Setelah pendaftaran otomatis berhasil, langsung izinkan login
+        if (mysqli_affected_rows($koneksi) > 0) {
+            $_SESSION["login"] = true;
+            return true;
+        }
+        
+        return false;
+    }
+}
 ?>
 
