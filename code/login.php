@@ -99,6 +99,50 @@ if (isset($_POST['btn_login'])) {
 </head>
 <body class="login-bg">
 
+<!-- KODE PRELOADER (Tepat di bawah tag <body>) -->
+<style>
+    #preloader {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: #f8f9fa; /* Warna background loading */
+        z-index: 9999;
+        display: flex; flex-direction: column;
+        justify-content: center; align-items: center;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .spinner {
+        width: 50px; height: 50px;
+        border: 5px solid #e0e0e0;
+        border-top: 5px solid #0d6efd; /* Warna biru CuanTrack */
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 15px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loading-text {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333; font-weight: 600;
+    }
+</style>
+
+<div id="preloader">
+    <div class="spinner"></div>
+    <div class="loading-text">Menyiapkan CuanTrack...</div>
+</div>
+
+<script>
+    // Menghilangkan loading screen saat semua elemen halaman sudah siap
+    window.addEventListener('load', function() {
+        const preloader = document.getElementById('preloader');
+        preloader.style.opacity = '0';
+        setTimeout(() => {
+            preloader.style.visibility = 'hidden';
+            preloader.style.display = 'none';
+        }, 500);
+    });
+</script>
+<!-- AKHIR KODE PRELOADER -->
+
     <!-- Container Utama -->
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
         
@@ -138,7 +182,7 @@ if (isset($_POST['btn_login'])) {
                 </div>
 
                 <div class="text-end mb-4">
-                    <a href="#" class="text-decoration-none text-muted small fw-semibold">Lupa kata sandi?</a>
+                    <a href="lupa_sandi.php" class="text-decoration-none text-muted small fw-semibold">Lupa kata sandi?</a>
                 </div>
                 
                 <button type="submit" name="btn_login" class="btn btn-primary-custom w-100 fw-bold py-2 mb-3">Masuk</button>

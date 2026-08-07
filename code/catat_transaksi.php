@@ -93,7 +93,7 @@ if (isset($_POST['simpan_transaksi'])) {
             
             <header class="d-flex justify-content-between align-items-center p-4 border-bottom bg-white">
                 <!-- Judul Kiri -->
-                <h4 class="fw-bold text-dark-custom mb-0 ps-2">Pengaturan Akun</h4>
+                <h4 class="fw-bold text-dark-custom mb-0 ps-2">Catat Transaksi</h4>
                 
                 <!-- Dropdown Profil Kanan -->
                 <div class="dropdown pe-3">

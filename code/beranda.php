@@ -71,6 +71,50 @@ $random_quote = $quotes[array_rand($quotes)];
 </head>
 <body class="bg-main">
 
+<!-- KODE PRELOADER (Tepat di bawah tag <body>) -->
+<style>
+    #preloader {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: #f8f9fa; /* Warna background loading */
+        z-index: 9999;
+        display: flex; flex-direction: column;
+        justify-content: center; align-items: center;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    .spinner {
+        width: 50px; height: 50px;
+        border: 5px solid #e0e0e0;
+        border-top: 5px solid #0d6efd; /* Warna biru CuanTrack */
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 15px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loading-text {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333; font-weight: 600;
+    }
+</style>
+
+<div id="preloader">
+    <div class="spinner"></div>
+    <div class="loading-text">Menyiapkan CuanTrack...</div>
+</div>
+
+<script>
+    // Menghilangkan loading screen saat semua elemen halaman sudah siap
+    window.addEventListener('load', function() {
+        const preloader = document.getElementById('preloader');
+        preloader.style.opacity = '0';
+        setTimeout(() => {
+            preloader.style.visibility = 'hidden';
+            preloader.style.display = 'none';
+        }, 500);
+    });
+</script>
+<!-- AKHIR KODE PRELOADER -->
+
     <!-- Wrapper Utama -->
     <div class="d-flex vh-100 overflow-hidden">
         
@@ -132,7 +176,7 @@ $random_quote = $quotes[array_rand($quotes)];
             <!-- Header Atas (Top Bar) -->
             <header class="d-flex justify-content-between align-items-center p-4 border-bottom bg-white">
                 <!-- Judul Kiri -->
-                <h4 class="fw-bold text-dark-custom mb-0 ps-2">Pengaturan Akun</h4>
+                <h4 class="fw-bold text-dark-custom mb-0 ps-2">Beranda</h4>
                 
                 <!-- Dropdown Profil Kanan -->
                 <div class="dropdown pe-3">
