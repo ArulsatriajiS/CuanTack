@@ -172,36 +172,45 @@ if ($ringkasan['pengeluaran'] == 0 && $ringkasan['pemasukan'] == 0) {
             <!-- STANDAR LEBAR 1100PX -->
             <div class="p-4 p-md-5 mx-auto" style="max-width: 1100px; width: 100%;">
                 
-                <!-- ROW 1: WIDGET RINGKASAN CEPAT (3 KARTU #b9dfff) -->
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <div class="card-summary">
-                            <div class="icon-summary bg-success text-white mb-2">
-                                <i class="bi bi-arrow-down-left"></i>
+               <!-- ROW 1: KARTU UTAMA - KATEGORI TERBOROS (LEBAR PENUH DI ATAS) -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <!-- Menggunakan d-flex agar ikon dan teks berada di kiri dan kanan seperti di halaman Riwayat -->
+                        <div class="card-summary d-flex align-items-center justify-content-between p-4">
+                            <div>
+                                <span class="text-secondary-custom small fw-semibold d-block mb-1">Kategori Terboros Bulan Ini</span>
+                                <h3 class="fw-bold text-dark-custom mb-0 text-truncate"><?= htmlspecialchars($kategori_terboros); ?></h3>
+                                <?php if ($nominal_terboros > 0): ?>
+                                    <span class="text-secondary-custom d-block mt-1" style="font-size: 0.85rem; font-weight: 700;">Menghabiskan: Rp <?= number_format($nominal_terboros, 0, '', '.'); ?></span>
+                                <?php endif; ?>
                             </div>
-                            <span class="text-secondary-custom small fw-semibold d-block">Pemasukan Bulan Ini</span>
-                            <h4 class="fw-bold text-success mb-0">+ Rp <?= number_format($ringkasan['pemasukan'], 0, '', '.'); ?></h4>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card-summary">
-                            <div class="icon-summary bg-danger text-white mb-2">
-                                <i class="bi bi-arrow-up-right"></i>
-                            </div>
-                            <span class="text-secondary-custom small fw-semibold d-block">Pengeluaran Bulan Ini</span>
-                            <h4 class="fw-bold text-danger mb-0">- Rp <?= number_format($ringkasan['pengeluaran'], 0, '', '.'); ?></h4>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card-summary">
-                            <div class="icon-summary bg-primary-custom text-white mb-2">
+                            <div class="icon-summary bg-primary-custom text-white mb-0 shadow-sm" style="width: 55px; height: 55px; font-size: 1.5rem;">
                                 <i class="bi bi-fire"></i>
                             </div>
-                            <span class="text-secondary-custom small fw-semibold d-block">Kategori Terboros</span>
-                            <h5 class="fw-bold text-dark-custom mb-0 text-truncate"><?= htmlspecialchars($kategori_terboros); ?></h5>
-                            <?php if ($nominal_terboros > 0): ?>
-                                <span class="text-secondary-custom" style="font-size: 0.75rem; font-weight: 700;">Rp <?= number_format($nominal_terboros, 0, '', '.'); ?></span>
-                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROW 2: PEMASUKAN & PENGELUARAN (BERDAMPINGAN DI BAWAH) -->
+                <div class="row g-2 g-md-3 mb-4">
+                    <!-- Kolom Kiri: Pemasukan -->
+                    <div class="col-6">
+                        <div class="card-summary h-100 p-3 p-md-4">
+                            <div class="icon-summary bg-success text-white mb-2 shadow-sm" style="width: 38px; height: 38px; font-size: 1.1rem;">
+                                <i class="bi bi-arrow-down-left"></i>
+                            </div>
+                            <span class="text-secondary-custom fw-semibold d-block mb-1" style="font-size: 0.8rem;">Pemasukan Bulan Ini</span>
+                            <h5 class="fw-bold text-success mb-0 text-truncate">+ Rp <?= number_format($ringkasan['pemasukan'], 0, '', '.'); ?></h5>
+                        </div>
+                    </div>
+                    <!-- Kolom Kanan: Pengeluaran -->
+                    <div class="col-6">
+                        <div class="card-summary h-100 p-3 p-md-4">
+                            <div class="icon-summary bg-danger text-white mb-2 shadow-sm" style="width: 38px; height: 38px; font-size: 1.1rem;">
+                                <i class="bi bi-arrow-up-right"></i>
+                            </div>
+                            <span class="text-secondary-custom fw-semibold d-block mb-1" style="font-size: 0.8rem;">Pengeluaran Bulan Ini</span>
+                            <h5 class="fw-bold text-danger mb-0 text-truncate">- Rp <?= number_format($ringkasan['pengeluaran'], 0, '', '.'); ?></h5>
                         </div>
                     </div>
                 </div>
