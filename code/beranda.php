@@ -48,7 +48,7 @@ $quotes = [
     "Sedikit demi sedikit, lama-lama menjadi bukit. Semangat menabung!",
     "Jangan biarkan gajimu numpang lewat. Lacak sekarang!",
     "Kesehatan finansial dimulai dari satu catatan kecil hari ini.",
-    "Ingat target finansialmu! Jangan goyah dengan diskon palsu hari ini 😂",
+    "Ingat target finansialmu! Jangan goyah dengan diskon palsu hari ini 💸",
     "Kelola uangmu dengan bijak hari ini, nikmati hasilnya di masa depan."
 ];
 $random_quote = $quotes[array_rand($quotes)];
@@ -249,8 +249,17 @@ $random_quote = $quotes[array_rand($quotes)];
                 <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 card-soft-blue">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="text-secondary-custom fs-5 mb-2">Sisa Saldo Bulan Ini</p>
-                            <h2 class="fw-bold text-dark-custom mb-0">Rp <?= number_format($ringkasan['selisih'], 0, '', '.'); ?></h2>
+                            <!-- Ikon Mata Ditambahkan Di Sini -->
+                            <p class="text-secondary-custom fs-5 mb-2 d-flex align-items-center">
+                                Sisa Saldo Bulan Ini 
+                                <i class="bi bi-eye ms-2 text-primary-custom" id="toggleSaldo" style="cursor: pointer; font-size: 1.2rem;" title="Sembunyikan/Tampilkan Saldo"></i>
+                            </p>
+                            <!-- Atribut Nominal Rahasia Ditambahkan Di Sini -->
+                            <h2 class="fw-bold text-dark-custom mb-0 nominal-rahasia" 
+                                data-nilai="Rp <?= number_format($ringkasan['selisih'], 0, '', '.'); ?>" 
+                                data-hidden="Rp •••••••">
+                                Rp <?= number_format($ringkasan['selisih'], 0, '', '.'); ?>
+                            </h2>
                         </div>
                         <div class="wallet-icon-wrapper">
                             <i class="bi bi-cash-stack text-primary-custom" style="font-size: 4rem;"></i>
@@ -269,7 +278,12 @@ $random_quote = $quotes[array_rand($quotes)];
                                 </div>
                                 <span class="text-secondary-custom fw-semibold">Pemasukan</span>
                             </div>
-                            <h4 class="fw-bold text-success mb-0 ms-2">+ Rp <?= number_format($ringkasan['pemasukan'], 0, '', '.'); ?></h4>
+                            <!-- Atribut Nominal Rahasia Ditambahkan Di Sini -->
+                            <h4 class="fw-bold text-success mb-0 ms-2 nominal-rahasia" 
+                                data-nilai="+ Rp <?= number_format($ringkasan['pemasukan'], 0, '', '.'); ?>" 
+                                data-hidden="+ Rp •••••••">
+                                + Rp <?= number_format($ringkasan['pemasukan'], 0, '', '.'); ?>
+                            </h4>
                         </div>
                     </div>
 
@@ -282,7 +296,12 @@ $random_quote = $quotes[array_rand($quotes)];
                                 </div>
                                 <span class="text-secondary-custom fw-semibold">Pengeluaran</span>
                             </div>
-                            <h4 class="fw-bold text-danger mb-0 ms-2">- Rp <?= number_format($ringkasan['pengeluaran'], 0, '', '.'); ?></h4>
+                            <!-- Atribut Nominal Rahasia Ditambahkan Di Sini -->
+                            <h4 class="fw-bold text-danger mb-0 ms-2 nominal-rahasia" 
+                                data-nilai="- Rp <?= number_format($ringkasan['pengeluaran'], 0, '', '.'); ?>" 
+                                data-hidden="- Rp •••••••">
+                                - Rp <?= number_format($ringkasan['pengeluaran'], 0, '', '.'); ?>
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -427,6 +446,35 @@ $random_quote = $quotes[array_rand($quotes)];
             <span>Analisa</span>
         </a>
     </nav>
+
+    <!-- KODE JAVASCRIPT UNTUK TOGGLE MATA SALDO -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleIcon = document.getElementById('toggleSaldo');
+            const nominalElements = document.querySelectorAll('.nominal-rahasia');
+
+            if (toggleIcon) {
+                toggleIcon.addEventListener('click', function() {
+                    // Ganti bentuk ikon (mata vs mata dicoret)
+                    this.classList.toggle('bi-eye');
+                    this.classList.toggle('bi-eye-slash');
+
+                    // Mengecek apakah mode sensor sedang aktif
+                    const isHidden = this.classList.contains('bi-eye-slash');
+                    
+                    // Loop semua teks nominal dan ganti sesuai mode
+                    nominalElements.forEach(el => {
+                        if (isHidden) {
+                            el.innerText = el.getAttribute('data-hidden'); // Munculkan titik-titik
+                        } else {
+                            el.innerText = el.getAttribute('data-nilai');  // Kembalikan ke angka asli
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+    <!-- AKHIR KODE JAVASCRIPT TOGGLE -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
