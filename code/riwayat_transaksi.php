@@ -173,32 +173,41 @@ $ikon_kategori = [
             <!-- STANDAR LEBAR 1100PX (KONSISTEN DENGAN BERANDA & BUDGETING) -->
             <div class="p-4 p-md-5 mx-auto" style="max-width: 1100px; width: 100%;">
                 
-                <!-- ROW 1: RINGKASAN ARUS KAS BULAN INI (3 KARTU BIRU PASTEL) -->
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <div class="card-summary">
-                            <div class="icon-summary bg-success text-white mb-2">
-                                <i class="bi bi-arrow-down-left"></i></div>
-                            <span class="text-secondary-custom small fw-semibold d-block">Pemasukan Bulan Ini</span>
-                            <h4 class="fw-bold text-success mb-0">+ Rp <?= number_format($ringkasan['pemasukan'], 0, '', '.'); ?></h4>
+               <!-- KARTU UTAMA: SISA ARUS KAS (DI ATAS) -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="card-summary d-flex align-items-center justify-content-between p-4">
+                            <div>
+                                <span class="text-secondary-custom small fw-semibold d-block mb-1">Sisa Arus Kas Bulan Ini</span>
+                                <h3 class="fw-bold text-dark-custom mb-0">Rp <?= number_format($ringkasan['selisih'], 0, '', '.'); ?></h3>
+                            </div>
+                            <div class="icon-summary bg-primary-custom text-white mb-0 shadow-sm" style="width: 55px; height: 55px; font-size: 1.5rem;">
+                                <i class="bi bi-cash-stack"></i>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card-summary">
-                            <div class="icon-summary bg-danger text-white mb-2">
+                </div>
+
+                <!-- ROW 2: PEMASUKAN & PENGELUARAN (SAMPING-SAMPINGAN) -->
+                <div class="row g-2 g-md-3 mb-4">
+                    <!-- Kolom Kiri: Pemasukan -->
+                    <div class="col-6">
+                        <div class="card-summary h-100 p-3 p-md-4">
+                            <div class="icon-summary bg-success text-white mb-2 shadow-sm" style="width: 38px; height: 38px; font-size: 1.1rem;">
+                                <i class="bi bi-arrow-down-left"></i>
+                            </div>
+                            <span class="text-secondary-custom fw-semibold d-block mb-1" style="font-size: 0.8rem;">Pemasukan Bulan Ini</span>
+                            <h5 class="fw-bold text-success mb-0 text-truncate">+ Rp <?= number_format($ringkasan['pemasukan'], 0, '', '.'); ?></h5>
+                        </div>
+                    </div>
+                    <!-- Kolom Kanan: Pengeluaran -->
+                    <div class="col-6">
+                        <div class="card-summary h-100 p-3 p-md-4">
+                            <div class="icon-summary bg-danger text-white mb-2 shadow-sm" style="width: 38px; height: 38px; font-size: 1.1rem;">
                                 <i class="bi bi-arrow-up-right"></i>
                             </div>
-                            <span class="text-secondary-custom small fw-semibold d-block">Pengeluaran Bulan Ini</span>
-                            <h4 class="fw-bold text-danger mb-0">- Rp <?= number_format($ringkasan['pengeluaran'], 0, '', '.'); ?></h4>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card-summary">
-                            <div class="icon-summary bg-primary-custom text-white mb-2">
-                                <i class="bi bi-cash-stack text-primary-custom"></i>
-                            </div>
-                            <span class="text-secondary-custom small fw-semibold d-block">Sisa Arus Kas Bulan Ini</span>
-                            <h4 class="fw-bold text-dark-custom mb-0">Rp <?= number_format($ringkasan['selisih'], 0, '', '.'); ?></h4>
+                            <span class="text-secondary-custom fw-semibold d-block mb-1" style="font-size: 0.8rem;">Pengeluaran Bulan Ini</span>
+                            <h5 class="fw-bold text-danger mb-0 text-truncate">- Rp <?= number_format($ringkasan['pengeluaran'], 0, '', '.'); ?></h5>
                         </div>
                     </div>
                 </div>

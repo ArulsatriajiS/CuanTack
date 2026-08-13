@@ -268,40 +268,41 @@ $random_quote = $quotes[array_rand($quotes)];
                 </div>
 
                 <!-- ROW 2 KOLOM (BERDAMPINGAN: PEMASUKAN vs PENGELUARAN) -->
-                <div class="row g-4 mb-4">
+                <div class="row g-2 g-md-4 mb-4">
                     <!-- Kolom Kiri: PEMASUKAN -->
-                    <div class="col-md-6">
-                        <div class="card border-0 shadow-sm rounded-4 p-4 h-100 card-soft-blue">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="icon-circle bg-green-light text-success me-3">
-                                    <i class="bi bi-arrow-down-left fs-4"></i>
+                    <div class="col-6">
+                        <!-- p-3 untuk HP, p-md-4 untuk Laptop agar tidak terlalu sesak -->
+                        <div class="card border-0 shadow-sm rounded-4 p-3 p-md-4 h-100 card-soft-blue">
+                            <!-- flex-column di HP (ikon di atas teks), flex-md-row di Laptop (sejajar) -->
+                            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-2 mb-md-3">
+                                <div class="icon-circle bg-green-light text-success me-0 me-md-3 mb-2 mb-md-0">
+                                    <i class="bi bi-arrow-down-left fs-5"></i>
                                 </div>
-                                <span class="text-secondary-custom fw-semibold">Pemasukan</span>
+                                <span class="text-secondary-custom fw-semibold" style="font-size: 0.85rem;">Pemasukan</span>
                             </div>
-                            <!-- Atribut Nominal Rahasia Ditambahkan Di Sini -->
-                            <h4 class="fw-bold text-success mb-0 ms-2 nominal-rahasia" 
+                            <!-- text-truncate agar angka tidak merusak kotak kalau uangnya sampai miliaran -->
+                            <h5 class="fw-bold text-success mb-0 nominal-rahasia text-truncate" 
                                 data-nilai="+ Rp <?= number_format($ringkasan['pemasukan'], 0, '', '.'); ?>" 
                                 data-hidden="+ Rp •••••••">
                                 + Rp <?= number_format($ringkasan['pemasukan'], 0, '', '.'); ?>
-                            </h4>
+                            </h5>
                         </div>
                     </div>
 
                     <!-- Kolom Kanan: PENGELUARAN -->
-                    <div class="col-md-6">
-                        <div class="card border-0 shadow-sm rounded-4 p-4 h-100 card-soft-blue">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="icon-circle bg-blue-light text-danger me-3" style="background-color: #fee2e2;">
-                                    <i class="bi bi-arrow-up-right fs-4"></i>
+                    <div class="col-6">
+                        <div class="card border-0 shadow-sm rounded-4 p-3 p-md-4 h-100 card-soft-blue">
+                            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-2 mb-md-3">
+                                <div class="icon-circle bg-blue-light text-danger me-0 me-md-3 mb-2 mb-md-0" style="background-color: #fee2e2;">
+                                    <i class="bi bi-arrow-up-right fs-5"></i>
                                 </div>
-                                <span class="text-secondary-custom fw-semibold">Pengeluaran</span>
+                                <span class="text-secondary-custom fw-semibold" style="font-size: 0.85rem;">Pengeluaran</span>
                             </div>
-                            <!-- Atribut Nominal Rahasia Ditambahkan Di Sini -->
-                            <h4 class="fw-bold text-danger mb-0 ms-2 nominal-rahasia" 
+                            <h5 class="fw-bold text-danger mb-0 nominal-rahasia text-truncate" 
                                 data-nilai="- Rp <?= number_format($ringkasan['pengeluaran'], 0, '', '.'); ?>" 
                                 data-hidden="- Rp •••••••">
                                 - Rp <?= number_format($ringkasan['pengeluaran'], 0, '', '.'); ?>
-                            </h4>
+                            </h5>
                         </div>
                     </div>
                 </div>
